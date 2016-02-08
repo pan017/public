@@ -17,5 +17,8 @@ namespace MvcApplication1.Models
         [Required]
         [StringLength(50)]
         public string Password { get; set; }
+
+        [Required]
+        public int Role { get; set; }
     }
 }

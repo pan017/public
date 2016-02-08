@@ -8,8 +8,6 @@ namespace MvcApplication1.Models
 {
     class UserContext : DbContext
     {
-        public UserContext()
-        { }
         public DbSet<User> Users { get; set; }
     }
 }
