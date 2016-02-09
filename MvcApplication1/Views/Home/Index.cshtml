@@ -5,12 +5,14 @@
 <h2>Index</h2>
 
 
-<fieldset>
-    <form>
-        <input type="email" /><br />
-        <input type="password" /><br />
-        <input type="submit" />
+<div>
+    @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+    {
+        <p>Enter your e-mail: </p>
+        @Html.TextBox("email", "Введите имя")
+        <p>Enter password :</p>
+        @Html.TextBox("Password", "Введите адрес")
+        <p><input type="submit" value="Войти" /></p>
+    }
+</div>
 
-    </form>
-
-</fieldset>

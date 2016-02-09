@@ -9,5 +9,6 @@ namespace MvcApplication1.Models
     class UserContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
     }
 }

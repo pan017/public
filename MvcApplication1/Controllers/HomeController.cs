@@ -25,13 +25,26 @@ namespace MvcApplication1.Controllers
         }
 
         [HttpPost]
-        public string Registration(User user)
+        public ActionResult Registration(User user)
         {
             user.Role = 1;
-            user.Password = Crypto.HashPassword(user.Password);
+            string userPassword = user.Password;
+            user.Password = Crypto.HashPassword(userPassword);
             db.Users.Add(user);
             db.SaveChanges();
-            return "Registration complecte";
+            return View("AddData");
+        }
+
+        public ActionResult AddData()
+        {
+            return View();
+        }
+        public string AddData(Profile profile)
+        {
+
+            db.Profiles.Add(profile);
+            db.SaveChanges();
+            return "asdasd";
         }
 
 

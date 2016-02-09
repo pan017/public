@@ -1,0 +1,32 @@
+﻿@model MvcApplication1.Models.Profile
+
+<h2>AddData</h2>
+<div>
+    @using (Html.BeginForm("AddData", "Home", FormMethod.Post))
+        {
+    <p>Name</p>
+    @Html.TextBox("FirstName") <br />
+    <p>Last Name</p>
+    @Html.TextBox("LastName") <br />
+    <p>Mobile phone</p>
+    @Html.TextBox("MPhone") <br />
+    <p>Home phone</p>
+    @Html.TextBox("HPhone") <br />
+    <p>Country</p>
+    @Html.TextBox("Country") <br />
+    <p>City</p>
+    @Html.TextBox("City") <br />
+    <p>Skype</p>
+    @Html.TextBox("Skype") <br />
+    <p>WibSite</p>
+    @Html.TextBox("WibSite") <br />
+        
+    <p>Sex</p>
+    @Html.RadioButton("Sex", "Man")
+    <span>Man</span> <br />
+    @Html.RadioButton("Sex", "Woman")
+    <span>Women</span> <br />
+    <input type="date" name="Brithday" />
+    <p><input type="submit" value="Отправить" /></p>
+        }
+</div>
