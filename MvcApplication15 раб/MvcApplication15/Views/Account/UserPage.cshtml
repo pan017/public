@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+@model MvcApplication15.Models.UserData
+
+
+<h2>UserPage</h2>
+
+
+    <br />
+@using (Html.BeginForm("LogOff", "Account"))
+{
+                @Html.AntiForgeryToken()        
+                @Html.ValidationSummary(true)
+    <input type="submit" value="Выход"/>
+}
+<input type="submit" title="Ввод инфы" value="Ввод инфы" onclick="location.href='@Url.Action("AddData", "Account")'" /> 
+<br />
+<img src="@Model.AvatarUrl.ToString()">
