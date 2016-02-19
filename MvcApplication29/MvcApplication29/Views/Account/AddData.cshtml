@@ -1,0 +1,71 @@
+﻿@model MvcApplication29.Models.UserData
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddData</title>
+    <!-- Bootstrap -->
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/css/style.css" rel="stylesheet">
+</head>
+
+
+
+<body style="color:red;">
+    @using (Html.BeginForm("AddData, Account"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+
+        <fieldset>
+            <legend>Registration Form</legend>
+            <ol>
+                <li>
+                    @Html.LabelFor(m => m.Name)
+                    @Html.TextBoxFor(m => m.Name)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.LastName)
+                    @Html.TextBoxFor(m => m.LastName)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.Sex)
+                    @Html.RadioButtonFor(m => m.Sex, "M")
+                    @Html.RadioButtonFor(m => m.Sex, "F")
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.City)
+                    @Html.TextBoxFor(m => m.City)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.Phone)
+                    @Html.TextBoxFor(m => m.Phone)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.School)
+                    @Html.TextBoxFor(m => m.School)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.College)
+                    @Html.TextBoxFor(m => m.College)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.Institute)
+                    @Html.TextBoxFor(m => m.Institute)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.Job)
+                    @Html.TextBoxFor(m => m.Job)
+                </li>
+            </ol>
+            <input type="submit" value="Save" />
+        </fieldset>
+    }
+</body>
+</html>
