@@ -182,20 +182,30 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FrendsController.cs" />
+    <Compile Include="Models\Dislike.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\Like.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Models\Photo.cs" />
+    <Compile Include="Models\Wall.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Models\FrendsModel.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap.js" />
     <Content Include="Content\css\bootstrap-theme.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\style.css" />
+    <Content Include="Content\images\22.png" />
     <Content Include="Content\images\None-Avatar.jpg" />
     <Content Include="Content\images\Registration-label.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -309,9 +319,15 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\AddData.cshtml" />
+    <Content Include="Views\Message\PostMessage.cshtml" />
+    <Content Include="Views\Message\Messages.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Account\AvatarUpload.cshtml" />
+    <Content Include="Views\Frends\Frends.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Avatars\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

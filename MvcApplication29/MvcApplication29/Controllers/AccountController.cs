@@ -10,6 +10,8 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using MvcApplication29.Filters;
 using MvcApplication29.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Helpers;
 
 namespace MvcApplication29.Controllers
 {
@@ -20,6 +22,85 @@ namespace MvcApplication29.Controllers
         //
         // GET: /Account/Login
 
+
+        [Authorize]
+        public ActionResult AddData()
+        {
+            UsersContext db = new UsersContext();
+            string a = WebSecurity.CurrentUserName;
+            UserData model = new UserData();
+            List<UserData> TempList = new List<UserData>();
+            TempList = db.UsersData.ToList();
+            for (int i = 0; i < TempList.Count ; i++)
+			{
+			    if (TempList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
+                {
+                    model = TempList[i];
+                    break;
+                }
+			}
+            db.Dispose();
+            return View("AddData",model);
+        }
+        [HttpPost]
+        public ActionResult AddData(UserData model)
+        {
+            UsersContext db = new UsersContext();
+            
+            var EditUser = db.UsersData
+                .Where(c => c.UserProfile.UserId == WebSecurity.CurrentUserId)
+                .FirstOrDefault();
+            EditUser.BrithDay = model.BrithDay;
+            EditUser.About = model.About;
+            EditUser.City = model.City;
+            EditUser.College = model.College;
+            EditUser.Entertainment = model.Entertainment;
+            EditUser.FavoriteBook = model.FavoriteBook;
+            EditUser.FavoriteGames = model.FavoriteGames;
+            EditUser.FavoriteKino = model.FavoriteKino;
+            EditUser.FavoriteMusik = model.FavoriteMusik;
+            EditUser.HPhone = model.HPhone;
+            EditUser.Instagram = model.Instagram;
+            EditUser.Institute = model.Institute;
+            EditUser.Interesses = model.Interesses;
+            EditUser.Job = model.Job;
+            EditUser.LastName = model.LastName;
+            EditUser.Name = model.Name;
+            EditUser.Phone = model.Phone;
+            EditUser.School = model.School;
+            EditUser.Sex = model.Sex;
+            EditUser.Skype = model.Skype;
+            EditUser.Twitter = model.Twitter;
+            EditUser.WebSite = model.WebSite;
+            if (ModelState.IsValid)
+                db.SaveChanges();
+            else
+                return View(model);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase upload)
+        {
+            if (upload != null)
+            {
+                // получаем имя файла
+                string fileName = System.IO.Path.GetFileName(upload.FileName);
+                // сохраняем файл в папку Files в проекте
+                string Extention = System.IO.Path.GetExtension(upload.FileName);
+                string NewFileName = Crypto.Hash(fileName) + Extention;
+                upload.SaveAs(Server.MapPath("~/Files/" + NewFileName));
+                UsersContext db = new UsersContext();
+                var EditUser = db.UsersData
+                .Where(c => c.UserProfile.UserId == WebSecurity.CurrentUserId)
+                .FirstOrDefault();
+                EditUser.AvatarUrl = "~/Avatars/" + NewFileName;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        #region Regiser\Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -32,7 +113,6 @@ namespace MvcApplication29.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
 
@@ -54,7 +134,6 @@ namespace MvcApplication29.Controllers
         // POST: /Account/LogOff
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
@@ -70,30 +149,11 @@ namespace MvcApplication29.Controllers
         {
             return View();
         }
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddData()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddData(UserData model)
-        {
-            UsersContext db = new UsersContext();
-            var EditUser = db.UsersData
-                .Where(c => c.UserId == model.UserId)
-                .FirstOrDefault();
-            EditUser = model;
-            db.SaveChanges();
-            return View("../Home/Index");
-        }
         //
         // POST: /Account/Register
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
@@ -114,7 +174,6 @@ namespace MvcApplication29.Controllers
                     UserData CurrentUserDataModel = new UserData(TempProfile);
                     db.UsersData.Add(CurrentUserDataModel);
                     db.SaveChanges();
-                    db.Dispose();
                     return View("AddData", CurrentUserDataModel);
                 }
                 catch (MembershipCreateUserException e)
@@ -131,7 +190,6 @@ namespace MvcApplication29.Controllers
         // POST: /Account/Disassociate
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Disassociate(string provider, string providerUserId)
         {
             string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
@@ -361,7 +419,7 @@ namespace MvcApplication29.Controllers
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
         }
-
+        #endregion
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
         {

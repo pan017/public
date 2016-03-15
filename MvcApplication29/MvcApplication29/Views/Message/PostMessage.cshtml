@@ -1,0 +1,24 @@
+﻿@model MvcApplication29.Models.Message
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PostMessage</title>
+</head>
+<body>
+    <div>
+        @Html.BeginForm("PostMessage", "Message")
+        {
+        @Html.TextBoxFor(m => m.UserGet.UserName);
+        @Html.TextAreaFor(m => m.Text);
+        <input type="submit" value="Post" />
+        }
+    </div>
+</body>
+</html>

@@ -22,7 +22,15 @@
 }
 @Html.BeginForm()
 {
-@Html.AntiForgeryToken()
-@Html.ValidationSummary(true)
-@Html.ActionLink("edit", "../Account/AddData");
+@Html.ActionLink("edit", "../Account/AddData")
+@Html.ActionLink("my messages", "../Message/Messages")
+@Html.ActionLink("post message", "../Message/PostMessage")
+@Html.ActionLink("asd", "../Users/Index/5")
+
+@foreach (var item in ViewBag.Users)
+{
+    <p><a href="/Users/Index/@item.UserProfile.UserId">@item.UserProfile.UserName </a></p>
+    <hr />
 }
+}
+

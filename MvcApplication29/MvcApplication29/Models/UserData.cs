@@ -8,6 +8,7 @@ using System.Web;
 namespace MvcApplication29.Models
 {
         [Table("UsersData")]
+        
         public class UserData
         {
             [Key]
@@ -16,7 +17,11 @@ namespace MvcApplication29.Models
             [Display (Name = "Ваше имя")]
             public string Name { get; set; }
             [Display(Name = "Ваша фамилия")]
+            
             public string LastName { get; set; }
+            [Required]
+            [DataType(DataType.Date)]
+            [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
             [Display(Name = "Дата рождения")]
             public DateTime BrithDay { get; set; }
             [Display(Name = "Пол")]

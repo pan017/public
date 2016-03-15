@@ -17,55 +17,88 @@
 
 
 
-<body style="color:red;">
-    @using (Html.BeginForm("AddData, Account"))
+<body style="color:aqua;">
+    @using(@Html.BeginForm("AddData", "Account"))
     {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary()
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sx-4 col-xs-4 ">
+                <img src="~/Content/images/22.png" class="img-responsive" alt="Responsive image">
 
-        <fieldset>
-            <legend>Registration Form</legend>
-            <ol>
-                <li>
-                    @Html.LabelFor(m => m.Name)
-                    @Html.TextBoxFor(m => m.Name)
-                </li>
-                <li>
+                <br>
+                <div class="control-group">
+                        @Html.LabelFor(m => m.Name)                    
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Name)
+                    </div>
+                </div>
+                <br>
+                <div class="control-group">
                     @Html.LabelFor(m => m.LastName)
+                    <div class="controls">
                     @Html.TextBoxFor(m => m.LastName)
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.Sex)
-                    @Html.RadioButtonFor(m => m.Sex, "M")
-                    @Html.RadioButtonFor(m => m.Sex, "F")
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.City)
-                    @Html.TextBoxFor(m => m.City)
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.Phone)
-                    @Html.TextBoxFor(m => m.Phone)
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.School)
-                    @Html.TextBoxFor(m => m.School)
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.College)
-                    @Html.TextBoxFor(m => m.College)
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.Institute)
-                    @Html.TextBoxFor(m => m.Institute)
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.Job)
-                    @Html.TextBoxFor(m => m.Job)
-                </li>
-            </ol>
-            <input type="submit" value="Save" />
-        </fieldset>
+                    </div>
+                    
+                </div>
+                <br>
+
+
+                <br> <br>
+            </div>
+            <div class="col-md-4 col-sm-4 ">
+
+                <br><br><br><br><br>
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.BrithDay)
+                        <div class="controls">
+                        @Html.EditorFor(m => m.BrithDay, new { @type = "date" })
+                        </div>
+                        </div>
+                    <br />
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.City)
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.City)
+                        </div>
+                    </div>
+                    <br />
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.Phone)
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Phone)
+                        </div>
+                    </div>
+                    <br />
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.Skype)
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Skype)
+                        </div>
+                    </div>
+                    <br />
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.School)
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.School)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.Job)
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Job)
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+                
+        
+
+            </div>
+         
+        </div>
+    </div>
     }
+    
 </body>
 </html>

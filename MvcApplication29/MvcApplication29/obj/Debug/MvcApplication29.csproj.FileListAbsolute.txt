@@ -82,6 +82,6 @@ c:\users\pan017\documents\visual studio 2013\Projects\MvcApplication29\MvcApplic
 c:\users\pan017\documents\visual studio 2013\Projects\MvcApplication29\MvcApplication29\bin\ru\System.Spatial.resources.dll
 c:\users\pan017\documents\visual studio 2013\Projects\MvcApplication29\MvcApplication29\bin\zh-Hans\System.Spatial.resources.dll
 c:\users\pan017\documents\visual studio 2013\Projects\MvcApplication29\MvcApplication29\bin\zh-Hant\System.Spatial.resources.dll
-c:\users\pan017\documents\visual studio 2013\Projects\MvcApplication29\MvcApplication29\obj\Debug\MvcApplication29.csprojResolveAssemblyReference.cache
 c:\users\pan017\documents\visual studio 2013\Projects\MvcApplication29\MvcApplication29\obj\Debug\MvcApplication29.dll
 c:\users\pan017\documents\visual studio 2013\Projects\MvcApplication29\MvcApplication29\obj\Debug\MvcApplication29.pdb
+C:\Users\pan017\documents\visual studio 2013\Projects\MvcApplication29\MvcApplication29\obj\Debug\MvcApplication29.csprojResolveAssemblyReference.cache

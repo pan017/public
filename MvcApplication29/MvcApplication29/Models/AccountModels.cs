@@ -17,7 +17,11 @@ namespace MvcApplication29.Models
 
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<UserData> UsersData { get; set; }
-        public DbSet<MessageModel> Messages { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<FrendsModel> Frends { get; set; }
+        public DbSet<Wall> Walls { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Dislike> Dislikes { get; set; }
     }
 
     [Table("UserProfile")]

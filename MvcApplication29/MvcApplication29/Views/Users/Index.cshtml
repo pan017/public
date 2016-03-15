@@ -1,0 +1,323 @@
+﻿@model MvcApplication29.Models.UserData
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="col-md-3 col-sm-3 col-xs-3">
+
+            <div class="col-md-5 col-sm-5-col-xs-5"><img src="22.png" class="img-responsive" alt="Responsive image"></div>
+            <div class="col-md-5 col-sm-5-col-xs-5">@ViewBag.CurrentUser.Name @ViewBag.CurrentUser.LastName</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <br><span class="glyphicon glyphicon-globe"></span>
+            </div>
+
+            <table border="1">
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="col-md-5  col-sm-5-col-xs-5"><img src="Koala.jpg" width="250" height="250"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <td><button type="button" class="btn-block btn-primary">Фотографии <div class="glyphicon glyphicon-picture"></div></button></td>
+                </tr>
+
+                <tr>
+                    <td><button type="button" class="btn-block btn-primary">Видеозаписи <div class="glyphicon glyphicon-film"></div></button></td>
+                </tr>
+                <tr>
+                    <td><button type="button" class="btn-block btn-primary">Музыка <div class="glyphicon glyphicon-headphones"></div></button></td>
+                </tr>
+                <tr>
+                    <td><button type="button" class="btn-block btn-primary">Информация <div class="glyphicon glyphicon-info-sign"></div></button></td>
+                </tr>
+                <tr>
+                    <td><button type="button" class="btn-block btn-primary">@Html.ActionLink("Выйти", "../Account/LogOff")<div class="glyphicon glyphicon-log-out"></div></button></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-md-9">
+
+
+            <div class="col-md-2">
+
+                <button type="button" class="btn-block btn-primary">@Html.ActionLink("Сообщения", "../Message/Messages") <div class="glyphicon glyphicon-envelope"></div></button>
+
+            </div>
+            <div class="col-md-2">
+
+                <button type="button" class="btn-block btn-primary">Стена <div class="glyphicon glyphicon-list-alt"></div> </button>
+
+            </div>
+            <div class="col-md-2">
+
+                <button type="button" class="btn-block btn-primary">Друзья <div class="glyphicon glyphicon-user"></div></button>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn-block btn-primary">
+                    Поиск <div class="
+glyphicon glyphicon-search"></div>
+                </button>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn-block btn-primary">
+                    Настройки <div class="
+          glyphicon glyphicon-cog"></div>
+                </button>
+            </div>
+            <div class="col-md-2">
+
+                <button type="button" class="btn-block btn-primary">
+                    Помощь <div class="
+          glyphicon glyphicon-question-sign"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-9">
+                <br>
+                <table bordercolor="black" border="1" width="100%" height="100%">
+                    <tr>
+                        <td bgcolor="#424242">
+                            <table width="100%" bordercolor="black" border="1">
+                                <tr align="center">
+                                    <td><h2>@Html.DisplayFor(m => m.Name) @Html.DisplayFor(m => m.LastName)</h2><span class="glyphicon glyphicon-globe"></span></td>
+                                </tr>
+                                <tr align="center">
+                                    <td><img src="Koala.jpg" width="200" height="200"></td>
+                                </tr>
+                                <br>
+                                <tr align="center">
+                                    <td><button type="button" class="btn btn-default">Добавить в друзья <div class="glyphicon glyphicon-user"></div></button> <button type="button" class="btn btn-default">Отправить сообщения <div class="glyphicon glyphicon-envelope"></div></button><br><button type="button" class="btn btn-default">Стена Васи <div class="glyphicon glyphicon-th"></div></button></td>
+                                </tr>
+                                <tr align="center">
+                                    <td>Город @Html.DisplayFor(m => m.City)к<br>Год рождения<br>Телефон @Html.DisplayFor(m => m.Phone)<br>Skype @Html.DisplayFor(m => m.Skype)<br>Местоработы @Html.DisplayFor(m => m.Job)</td>
+                                </tr>
+                                <tr align="center">
+                                    <td><button type="button" class="btn btn-default">Дополнительно <div class="glyphicon glyphicon-user"></div></button></td>
+                                </tr>
+                            </table>
+                        </td>
+
+
+
+
+                        <td>
+                            <table bordercolor="black" border="1" width="100%" height="100%" margin-top="auto">
+                                <tr>
+                                    <td bgcolor="#424242">
+                                        <table width="100%" cellpadding="10" bordercolor="black" border="1">
+                                            <tr align="center">
+                                                <td colspan="2"><h2>Друзья Васи </h2></td>
+                                            </tr>
+                                            <tr align="center">
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td><h5>Друзья оналайн</h5></td>
+                                                            <br>
+
+                                                        </tr>
+
+                                                        <td>
+                                                            <table border="1">
+                                                                <tr>
+                                                                    <td rowspan="4"><img src="" width="60" height="60"></td>
+                                                                    <td colspan="1">Антон Печкин</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Минск</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>17 лет</td>
+
+                                                                </tr>
+
+                                                                <td>Написать Сообщение</td>
+
+
+
+                                                            </table><br><table border="1">
+                                                                <tr>
+                                                                    <td rowspan="4"><img src="" width="60" height="60"></td>
+                                                                    <td colspan="1">Антон Печкин</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Минск</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>17 лет</td>
+
+                                                                </tr>
+
+                                                                <td>Написать Сообщение</td>
+
+
+
+                                                            </table><br><table border="1">
+                                                                <tr>
+                                                                    <td rowspan="4"><img src="" width="60" height="60"></td>
+                                                                    <td colspan="1">Антон Печкин</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Минск</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>17 лет</td>
+
+                                                                </tr>
+
+                                                                <td>Написать Сообщение</td>
+
+
+
+                                                            </table>
+                                                        </td>
+
+
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td><h5>Все друзья</h5></td>
+                                                            <br>
+
+                                                        </tr>
+
+                                                        <td>
+                                                            <table border="1">
+                                                                <tr>
+                                                                    <td rowspan="4"><img src="" width="60" height="60"></td>
+                                                                    <td colspan="1">Антон Печкин</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Минск</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>17 лет</td>
+
+                                                                </tr>
+
+                                                                <td>Написать Сообщение</td>
+
+
+
+                                                            </table><br><table border="1">
+                                                                <tr>
+                                                                    <td rowspan="4"><img src="" width="60" height="60"></td>
+                                                                    <td colspan="1">Антон Печкин</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Минск</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>17 лет</td>
+
+                                                                </tr>
+
+                                                                <td>Написать Сообщение</td>
+
+
+
+                                                            </table><br><table border="1">
+                                                                <tr>
+                                                                    <td rowspan="4"><img src="" width="60" height="60"></td>
+                                                                    <td colspan="1">Антон Печкин</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Минск</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>17 лет</td>
+
+                                                                </tr>
+
+                                                                <td>Написать Сообщение</td>
+
+
+
+                                                            </table><br>
+                                                        </td>
+
+                                                    </table>
+
+
+
+                                                    <br>
+                                                <td> </td>
+
+
+                                                <td>
+                                                    <table bordercolor="black" border="0" width="100%" height="100%" margin-top="auto">
+                                                        <tr>
+                                                            <td bgcolor="#424242">
+                                                                <table width="100%" cellpadding="10" bordercolor="black" border="1">
+                                                                    <tr align="center">
+
+                                                                        <td><h2>Медиа</h2></td>
+                                                                    </tr>
+                                                                    <tr align="center">
+
+                                                                        <td>Фотографии Васи</td>
+                                                                    </tr>
+
+                                                                    <tr align="center">
+                                                                        <td><img src="Koala.jpg" width="200" height="200"></td>
+                                                                    </tr>
+                                                                    <br>
+                                                                    <tr align="center">
+                                                                        <td>Видео Васи</td>
+                                                                    </tr>
+                                                                    <tr align="center">
+                                                                        <td><img src="Lighthouse.jpg" width="200" height="200"></td>
+                                                                    </tr>
+                                                                    <tr align="center">
+                                                                        <td>Аудиозаписи Васи</td>
+                                                                    </tr>
+                                                                    <tr align="center">
+                                                                        <td width="100" height="100"></td>
+                                                                    </tr>
+                                                                </table>
+                                                                <script src="~/Content/bootstrap.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

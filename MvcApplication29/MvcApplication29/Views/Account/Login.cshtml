@@ -26,19 +26,15 @@
                 <br>
                 @using (@Html.BeginForm("Login", "Account"))
                 {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
                     <fieldset>
                         <ol>
                             <li>
                                 @Html.LabelFor(model => model.UserName)
                                 @Html.TextBoxFor(model => model.UserName)
-                                @Html.ValidationMessageFor(model => model.UserName)
                             </li>
                             <li>
                                 @Html.LabelFor(model => model.Password)
                                 @Html.PasswordFor(model => model.Password)
-                                @Html.ValidationMessageFor(model => model.Password)
                             </li>
                             <li>
                                 @Html.CheckBoxFor(model => model.RememberMe)
@@ -51,7 +47,6 @@
                 }
                 @using (@Html.BeginForm("Register", "Account"))
                 {
-                    @Html.AntiForgeryToken() @Html.ValidationSummary()
                     <input type="button" class="btn btn-primary" title="Регистрация" value="Create" onclick="location.href='@Url.Action("Register", "Account")'" />
                 }
 

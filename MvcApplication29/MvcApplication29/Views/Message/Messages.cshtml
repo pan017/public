@@ -1,0 +1,14 @@
+﻿@model MvcApplication29.Models.Message
+
+@{
+    ViewBag.Title = "Messages";
+}
+
+<h2>Messages</h2>
+@foreach (var item in ViewBag.CurrentUserMessages)
+{
+    <div>
+        <p>@item.UserPost.UserName</p>
+        <p>@item.Text</p>
+    </div>
+}
