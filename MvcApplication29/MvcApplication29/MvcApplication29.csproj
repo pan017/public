@@ -183,12 +183,14 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FrendsController.cs" />
+    <Compile Include="Controllers\WallController.cs" />
     <Compile Include="Models\Dislike.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\Like.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Models\Photo.cs" />
+    <Compile Include="Models\RequestFrendsModel.cs" />
     <Compile Include="Models\Wall.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -272,6 +274,8 @@
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.uploadify.js" />
+    <Content Include="Scripts\jquery.uploadify.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -279,6 +283,9 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\uploadify-cancel.png" />
+    <Content Include="Scripts\uploadify.css" />
+    <Content Include="Scripts\uploadify.swf" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -324,6 +331,13 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Account\AvatarUpload.cshtml" />
     <Content Include="Views\Frends\Frends.cshtml" />
+    <Content Include="Views\Shared\View1.cshtml" />
+    <Content Include="Scripts\uploadify.php" />
+    <Content Include="Views\Users\UserPage.cshtml" />
+    <Content Include="Views\Shared\AvatarUpload.cshtml" />
+    <Content Include="Views\Frends\RequestFrends.cshtml" />
+    <Content Include="Views\Shared\Partial1.cshtml" />
+    <Content Include="Views\Wall\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

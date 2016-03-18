@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MvcApplication29.Models;
 using MvcApplication29.Filters;
+using WebMatrix.WebData;
 
 namespace MvcApplication29.Controllers
 {
@@ -19,15 +20,34 @@ namespace MvcApplication29.Controllers
             List<UserData> TempList = new List<UserData>();
             TempList = db.UsersData.ToList();
             ViewBag.Users = TempList;
-
-            return View();
+            UserData model = new UserData();
+            for (int i = 0; i < TempList.Count; i++)
+            {
+                if (TempList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
+                {
+                    model = TempList[i];
+                    break;
+                }
+            }
+            return View(model);
         }
 
-        public ActionResult About()
+        public ActionResult AvatarChanget()
         {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
+            UsersContext db = new UsersContext();
+            List<UserData> TempList = new List<UserData>();
+            TempList = db.UsersData.ToList();
+            ViewBag.Users = TempList;
+            UserData model = new UserData();
+            for (int i = 0; i < TempList.Count; i++)
+            {
+                if (TempList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
+                {
+                    model = TempList[i];
+                    break;
+                }
+            }
+            return View(model);
         }
 
         public ActionResult Contact()

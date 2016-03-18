@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
 }
-@model List<MvcApplication29.Models.UserData>
+@model MvcApplication29.Models.UserData
 <!DOCTYPE html>
 
 <html>
@@ -13,71 +13,14 @@
         body {
             background-color: #333; /* Цвет фона веб-страницы */
         }
-
-        #wrap {
-            display: none;
-            opacity: 0.8;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            padding: 16px;
-            background-color: rgba(1, 1, 1, 0.725);
-            z-index: 100;
-            overflow: auto;
-        }
-
-        #window {
-            width: 640px;
-            height: 800px;
-            margin: 50px auto;
-            display: none;
-            background: #fff;
-            z-index: 200;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            padding: 16px;
-        }
-
-        .close {
-            margin-left: 364px;
-            margin-top: 4px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
-    <script type="text/javascript">
-
-        //Функция показа
-        function show(state) {
-
-            document.getElementById('window').style.display = state;
-            document.getElementById('wrap').style.display = state;
-        }
-        function AddFrend() {
-            $.get("../Frends/AddFrends");
-        };
-
-    </script>
-    <div onclick="show('none')" id="wrap"></div>
-    <!--Загрузка аватарки-->
-    <div id="window">
-        <!-- Картинка крестика-->
-        <img class="close" onclick="show('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
-        @*@Html.Partial("../Shared/AvatarUpload")*@
-    </div>
-
-
     <div class="container-fluid">
         <div class="col-md-3 col-sm-3 col-xs-3">
 
             <div class="col-md-5 col-sm-5-col-xs-5"><img src="~/Content/images/22.png" class="img-responsive" alt="Responsive image"></div>
-            <div class="col-md-5 col-sm-5-col-xs-5">@ViewBag.currentUser.Name @ViewBag.currentUser.LastName)</div>
+            <div class="col-md-5 col-sm-5-col-xs-5">@Html.DisplayTextFor(m => m.Name) </div>
             <div class="col-md-2 col-sm-2 col-xs-2">
                 <br><span class="glyphicon glyphicon-globe"></span>
             </div>
@@ -88,7 +31,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <div class="col-md-5  col-sm-5-col-xs-5"><img src="@ViewBag.currentUser.AvatarUrl" width="250" height="250" onclick="show('block')"></div>
+                                    <div class="col-md-5  col-sm-5-col-xs-5"><img src="Koala.jpg" width="250" height="250"></div>
                                 </td>
                             </tr>
                         </table>
@@ -107,10 +50,10 @@
                     <td><button type="button" class="btn-block btn-primary">Музыка <div class="glyphicon glyphicon-headphones"></div></button></td>
                 </tr>
                 <tr>
-                    <td><button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("AddData", "Account")'">Информация <div class="glyphicon glyphicon-info-sign"></div></button></td>
+                    <td><button type="button" class="btn-block btn-primary">Информация <div class="glyphicon glyphicon-info-sign"></div></button></td>
                 </tr>
                 <tr>
-                    <td><button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("LogOff", "Account")'">Выйти <div class="glyphicon glyphicon-log-out"></div></button></td>
+                    <td><button type="button" class="btn-block btn-primary">Выйти <div class="glyphicon glyphicon-log-out"></div></button></td>
                 </tr>
             </table>
         </div>
@@ -121,7 +64,7 @@
 
             <div class="col-md-2">
 
-                <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Messages", "Message")'">Сообщения <div class="glyphicon glyphicon-envelope"></div></button>
+                <button type="button" class="btn-block btn-primary">Сообщения <div class="glyphicon glyphicon-envelope"></div></button>
 
             </div>
             <div class="col-md-2">
@@ -131,7 +74,7 @@
             </div>
             <div class="col-md-2">
 
-                <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Frends", "Frends")'">Друзья <div class="glyphicon glyphicon-user"></div></button>
+                <button type="button" class="btn-block btn-primary">Друзья <div class="glyphicon glyphicon-user"></div></button>
             </div>
             <div class="col-md-2">
                 <button type="button" class="btn-block btn-primary">
@@ -163,17 +106,13 @@ glyphicon glyphicon-search"></div>
             <div class="row">
 
                 <div class="col-md-9">
-                    @Html.Raw(ViewBag.NotConfirm) 
                     <br>
-                    @foreach (var item in Model)
-                    {
-                        <p>@item.UserId @item.Name</p>
-                    }
+                    @RenderBody()
                 </div>
             </div>
 
         </div>
     </div>
-
+              
 </body>
 </html>

@@ -1,0 +1,9 @@
+﻿
+
+<img src="@Model.AvatarUrl" width="600" height="500"> <br> <br>
+<h5>Выберите файл для загрузки</h5>
+@using (Html.BeginForm("Upload", "Account", FormMethod.Post, new { enctype = "multipart/form-data", Id = "AvatarImage" }))
+{
+    <input type="file" name="upload" onchange='$("#upload-file-info").html($(this).val());' /><br>
+    <input type="submit" value="Загрузить" form="AvatarImage" />
+}

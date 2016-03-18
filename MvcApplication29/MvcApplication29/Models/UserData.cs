@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -21,7 +22,7 @@ namespace MvcApplication29.Models
             public string LastName { get; set; }
             [Required]
             [DataType(DataType.Date)]
-            [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+            //[DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
             [Display(Name = "Дата рождения")]
             public DateTime BrithDay { get; set; }
             [Display(Name = "Пол")]
@@ -62,12 +63,14 @@ namespace MvcApplication29.Models
             public string FavoriteGames { get; set; }
             [Display(Name = "О себе")]
             public string About { get; set; }
+
             public string AvatarUrl { get; set; }
             public virtual UserProfile UserProfile { get; set; }
 
             public UserData() { }
             public UserData(UserProfile UserProfile)
             {
+
                 this.About = "About";
                 this.AvatarUrl = "/Content/images/None-Avatar.jpg";
                 this.BrithDay = DateTime.Now;

@@ -82,22 +82,28 @@ namespace MvcApplication29.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase upload)
         {
+            UsersContext db = new UsersContext();
             if (upload != null)
             {
                 // получаем имя файла
                 string fileName = System.IO.Path.GetFileName(upload.FileName);
                 // сохраняем файл в папку Files в проекте
                 string Extention = System.IO.Path.GetExtension(upload.FileName);
-                string NewFileName = Crypto.Hash(fileName) + Extention;
-                upload.SaveAs(Server.MapPath("~/Files/" + NewFileName));
-                UsersContext db = new UsersContext();
+                string NewFileName = Crypto.Hash(fileName);
+                NewFileName = NewFileName.Remove(0,20);
+                NewFileName = NewFileName.ToLower();
+                NewFileName +=Extention;
+                upload.SaveAs(Server.MapPath("~/Avatars/" + NewFileName));
+                
                 var EditUser = db.UsersData
                 .Where(c => c.UserProfile.UserId == WebSecurity.CurrentUserId)
                 .FirstOrDefault();
-                EditUser.AvatarUrl = "~/Avatars/" + NewFileName;
+                EditUser.AvatarUrl = "/Avatars/" + NewFileName;
                 db.SaveChanges();
+                upload.SaveAs(Server.MapPath("~/Avatars/" + NewFileName));
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
+            
         }
 
         #region Regiser\Login
@@ -133,7 +139,7 @@ namespace MvcApplication29.Controllers
         //
         // POST: /Account/LogOff
 
-        [HttpPost]
+        
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
