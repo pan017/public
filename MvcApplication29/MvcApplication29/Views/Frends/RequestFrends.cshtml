@@ -159,20 +159,47 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-md-9">
+                <div class="col-md-9" style="background-color: #605e5e">
                     <br>
                     @foreach (var item in Model)
                     {
-                        <p>@item.User.UserId @item.User.Name <br />
-                            <div class="col-md-2">
-                                <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("ConfirmRequest", "Frends", new { id = item.RequestId })'">
-                                    Принять <div class="glyphicon glyphicon-question-sign"></div>
-                                </button>
-                                <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Renouncement", "Frends", new { id = item.RequestId })'">
-                                    Отклонить <div class="glyphicon glyphicon-question-sign"></div>
-                                </button>
-                            </div>
-</p>
+
+                        <table border="1">
+                            <tr>
+                                <td rowspan="4"><img src="@item.User.AvatarUrl" width="160" height="160"></td>
+                                <td colspan="1">@item.User.Name  @item.User.LastName</td>
+                            </tr>
+                            <tr>
+                                <td>@item.User.City</td>
+                            </tr>
+                            <tr>
+                                <td>17 лет</td>
+                            </tr>
+                            <tr><td>Написать Сообщение</td></tr>
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("ConfirmRequest", "Frends", new { id = item.RequestId })'">
+                                        Принять <div class="glyphicon glyphicon-question-sign"></div>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Renouncement", "Frends", new { id = item.RequestId })'">
+                                        Отклонить <div class="glyphicon glyphicon-question-sign"></div>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        @*<p>@item.User.UserId @item.User.Name <br />
+                <div class="col-md-2">
+                    <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("ConfirmRequest", "Frends", new { id = item.RequestId })'">
+                        Принять <div class="glyphicon glyphicon-question-sign"></div>
+                    </button>
+                    <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Renouncement", "Frends", new { id = item.RequestId })'">
+                        Отклонить <div class="glyphicon glyphicon-question-sign"></div>
+                    </button>
+                </div>*@
+                        @*</p>*@
                     }
                 </div>
             </div>

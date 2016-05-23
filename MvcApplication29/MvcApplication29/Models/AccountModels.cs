@@ -22,6 +22,7 @@ namespace MvcApplication29.Models
         public DbSet<Wall> Walls { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Dislike> Dislikes { get; set; }
+        public DbSet<EmailModel> EmailModels { get; set; }
     }
 
     [Table("UserProfile")]
@@ -41,7 +42,11 @@ namespace MvcApplication29.Models
 
         public string ExternalLoginData { get; set; }
     }
-
+    public class PasswordRecoverModel
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+    }
     public class LocalPasswordModel
     {
         [Required]
@@ -50,48 +55,50 @@ namespace MvcApplication29.Models
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
     public class LoginModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Логин")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Зпомнить меня?")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Логин")]
         public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Пароль")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Подтверждение пароля")]
+        [Compare("Password", ErrorMessage = "Оба введенных пароля должны быть идентичны!.")]
         public string ConfirmPassword { get; set; }
+
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "E-mail")]
+        public string EmailAdres { get; set; }
     }
 
     public class ExternalLogin

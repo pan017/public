@@ -11,7 +11,7 @@
     <title>View1</title>
     <style>
         body {
-            background-color: #333; /* Цвет фона веб-страницы */
+            background-color: white; /* Цвет фона веб-страницы */
 
         }
     #wrap {
@@ -75,6 +75,14 @@
 
 
     <div class="container-fluid">
+        @if (ViewBag.EmailError)
+        {
+            <div style="background-color:white;">Адрес электронной почты не подтвержден. </div>
+        }
+        @if (ViewBag.EmailError == null)
+        {
+            <div style="background-color:white;">Адрес электронной почты успешно подтвержден </div>
+        }
         <div class="col-md-3 col-sm-3 col-xs-3">
 
             <div class="col-md-5 col-sm-5-col-xs-5"><img src="~/Content/images/22.png" class="img-responsive" alt="Responsive image"></div>
@@ -141,10 +149,7 @@ glyphicon glyphicon-search"></div>
                 </button>
             </div>
             <div class="col-md-2">
-                <button type="button" class="btn-block btn-primary">
-                    Настройки <div class="
-          glyphicon glyphicon-cog"></div>
-                </button>
+                <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Settings", "Account")'"> Настройки <div class="glyphicon glyphicon-cog"></div></button>
             </div>
             <div class="col-md-2">
 

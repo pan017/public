@@ -31,7 +31,7 @@ namespace MvcApplication29.Controllers
                     || TempList[i].UserB.UserProfile.UserId == WebSecurity.CurrentUserId)
                     FrendsList.Add(TempList[i]);
             }
-            // Получаем модель текуж\щего пользоваеля
+            // Получаем модель текущего пользоваеля
 
             TempUserList = db.UsersData.ToList();
             for (int i = 0; i < TempUserList.Count; i++)
@@ -60,17 +60,11 @@ namespace MvcApplication29.Controllers
             ViewBag.Frends = ConfirmFrends;
 
             // Считаем количество заявок в друзья, которые отправили нам
-            for (int i = 0; i < NotConfirmFrends.Count; i++)
-            {
-                if (FrendsList[i].UserB.UserProfile.UserId == WebSecurity.CurrentUserId)
-                {
-                    CountOfNotConfirmFrends++;
-                }
-            }
+
             // Если есть входящие заявки - генерируем кнопку
-            if (CountOfNotConfirmFrends != 0)
+            if (NotConfirmFrends.Count != 0)
             {
-                ViewBag.NotConfirm = "<button type=\"button\" class=\"btn btn-default\" onclick=\"location.href='/Frends/RequestFrends'\">Заявки в друзья(" + CountOfNotConfirmFrends + ") <div class=\"glyphicon glyphicon-user\"></div></button>";
+                ViewBag.NotConfirm = "<button type=\"button\" class=\"btn btn-default\" onclick=\"location.href='/Frends/RequestFrends'\">Заявки в друзья(" + NotConfirmFrends.Count + ") <div class=\"glyphicon glyphicon-user\"></div></button>";
             }
             return View(ConfirmFrends);
         }
@@ -127,7 +121,7 @@ namespace MvcApplication29.Controllers
             for (int i = 0; i < FrendsList.Count; i++)
             {
                 if (FrendsList[i].UserB.UserProfile.UserId == WebSecurity.CurrentUserId)
-                    NotConfirmFrends.Add(new RequestFrendsModel(FrendsList[i].UserB, FrendsList[i].Id));
+                    NotConfirmFrends.Add(new RequestFrendsModel(FrendsList[i].UserA, FrendsList[i].Id));
             }
             
             return View(NotConfirmFrends);

@@ -1,24 +1,13 @@
-﻿@model MvcApplication29.Models.Message
-
-@{
+﻿@{
     Layout = null;
 }
+@model MvcApplication29.Models.Message
 
-<!DOCTYPE html>
+@using (Html.BeginForm("PostMessage", "Message", new {UserGetId = Model.UserGet.UserId}, FormMethod.Post))
+{  
+@Html.TextAreaFor(m => m.Text)
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>PostMessage</title>
-</head>
-<body>
-    <div>
-        @Html.BeginForm("PostMessage", "Message")
-        {
-        @Html.TextBoxFor(m => m.UserGet.UserName);
-        @Html.TextAreaFor(m => m.Text);
-        <input type="submit" value="Post" />
-        }
-    </div>
-</body>
-</html>
+<button type="submit" class="btn-block btn-primary">
+    Отправить <div class="glyphicon glyphicon-question-sign"></div></button>
+    @*<button type="submit" class="btn-block btn-primary" onclick="location.href'@Url.Action("PostMessage", "Message",)'></button>*@
+}

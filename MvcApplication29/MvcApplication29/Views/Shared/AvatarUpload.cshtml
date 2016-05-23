@@ -1,9 +1,36 @@
 ﻿
+<script> function PreviewImages() {
+     var inputID = document.getElementById('input_clone');
+     var totalImages = inputID.files.length;
+     var imagesPerRow = 3;
+     var numRows = totalImages / imagesPerRow;
+     var row = "";
+     var cell = "";
+     var element1 = "";
+     var elementID = "";
 
-<img src="@Model.AvatarUrl" width="600" height="500"> <br> <br>
+     oFReader = new FileReader();
+
+     oFReader.onload = function (oFREvent) {
+         var dataURI = oFREvent.target.result;
+         var image = document.getElementById("qwe");
+         image.src = dataURI;
+     };
+
+     oFReader.readAsDataURL(document.getElementById("input_clone").files[0]);
+            
+ }
+
+    window.addEventListener("load", function () {
+        document.getElementById("input_clone").addEventListener("change", PreviewImages, false);
+    }, false);
+    //]]>
+
+    </script>
+<img src="@Model.AvatarUrl" id="qwe" width="600" height="500"> <br> <br>
 <h5>Выберите файл для загрузки</h5>
 @using (Html.BeginForm("Upload", "Account", FormMethod.Post, new { enctype = "multipart/form-data", Id = "AvatarImage" }))
 {
-    <input type="file" name="upload" onchange='$("#upload-file-info").html($(this).val());' /><br>
+    <input type="file" id="input_clone" name="upload" /><br>
     <input type="submit" value="Загрузить" form="AvatarImage" />
 }

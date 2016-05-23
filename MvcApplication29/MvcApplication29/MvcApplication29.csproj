@@ -186,6 +186,7 @@
     <Compile Include="Controllers\WallController.cs" />
     <Compile Include="Models\Dislike.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\Like.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -266,10 +267,13 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="ClassDiagram1.cd" />
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -326,7 +330,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\AddData.cshtml" />
-    <Content Include="Views\Message\PostMessage.cshtml" />
     <Content Include="Views\Message\Messages.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Account\AvatarUpload.cshtml" />
@@ -338,6 +341,12 @@
     <Content Include="Views\Frends\RequestFrends.cshtml" />
     <Content Include="Views\Shared\Partial1.cshtml" />
     <Content Include="Views\Wall\Index.cshtml" />
+    <Content Include="Views\Message\PostMessage.cshtml" />
+    <Content Include="Views\Shared\_RegLog.cshtml" />
+    <Content Include="Views\Message\Dialog.cshtml" />
+    <Content Include="Views\Shared\UserView.cshtml" />
+    <Content Include="Views\Account\Settings.cshtml" />
+    <Content Include="Views\Account\RecoverPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

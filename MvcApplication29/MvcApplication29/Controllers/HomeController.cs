@@ -17,6 +17,13 @@ namespace MvcApplication29.Controllers
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
             UsersContext db = new UsersContext();
+            var EditUser = db.EmailModels
+            .Where(c => c.UserProfile.UserId == WebSecurity.CurrentUserId)
+            .FirstOrDefault();
+           
+            ViewBag.EmailError = false;
+            //if (!EditUser.IsConfirm)
+               // ViewBag.EmailError = true;
             List<UserData> TempList = new List<UserData>();
             TempList = db.UsersData.ToList();
             ViewBag.Users = TempList;
@@ -29,8 +36,11 @@ namespace MvcApplication29.Controllers
                     break;
                 }
             }
+            ViewBag.currentUser = model;
             return View(model);
         }
+
+        [HttpPost]
 
         public ActionResult AvatarChanget()
         {

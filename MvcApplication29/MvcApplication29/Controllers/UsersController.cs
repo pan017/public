@@ -69,7 +69,7 @@ namespace MvcApplication29.Controllers
                     ViewBag.FrendStatus = "<button type=\"button\" class=\"btn btn-default\" onclick=\"location.href='/Frends/AddFrends/"+ id+"'\">Добавить в друзья <div class=\"glyphicon glyphicon-user\"></div></button>";
             }
 
-            ViewBag.CurrentUser = currentUser;
+            ViewBag.currentUser = currentUser;
             return View(model);
         }
 

@@ -12,6 +12,8 @@ using MvcApplication29.Filters;
 using MvcApplication29.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Helpers;
+using System.Net.Mail;
+using System.Net;
 
 namespace MvcApplication29.Controllers
 {
@@ -22,7 +24,22 @@ namespace MvcApplication29.Controllers
         //
         // GET: /Account/Login
 
+        public ActionResult Settings()
+        {
+            UsersContext db = new UsersContext();
+            List<UserData> TempUserList = new List<UserData>();
+            TempUserList = db.UsersData.ToList();
+            for (int i = 0; i < TempUserList.Count; i++)
+            {
+                if (TempUserList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
+                {
+                    ViewBag.currentUser = TempUserList[i];
+                    break;
+                }
+            }
 
+            return View();
+        }
         [Authorize]
         public ActionResult AddData()
         {
@@ -36,10 +53,12 @@ namespace MvcApplication29.Controllers
 			    if (TempList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
                 {
                     model = TempList[i];
+                    ViewBag.currentUser = TempList[i];
                     break;
                 }
 			}
             db.Dispose();
+            
             return View("AddData",model);
         }
         [HttpPost]
@@ -72,10 +91,15 @@ namespace MvcApplication29.Controllers
             EditUser.Skype = model.Skype;
             EditUser.Twitter = model.Twitter;
             EditUser.WebSite = model.WebSite;
+            ViewBag.currentUser = EditUser;
             if (ModelState.IsValid)
                 db.SaveChanges();
             else
+            {
+                ModelState.AddModelError("BrithDay", "Введите дату корректно");
                 return View(model);
+            }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -98,6 +122,7 @@ namespace MvcApplication29.Controllers
                 var EditUser = db.UsersData
                 .Where(c => c.UserProfile.UserId == WebSecurity.CurrentUserId)
                 .FirstOrDefault();
+                //System.IO.File.Delete(Server.MapPath(EditUser.AvatarUrl));
                 EditUser.AvatarUrl = "/Avatars/" + NewFileName;
                 db.SaveChanges();
                 upload.SaveAs(Server.MapPath("~/Avatars/" + NewFileName));
@@ -130,10 +155,12 @@ namespace MvcApplication29.Controllers
                 FormsAuthentication.SetAuthCookie(model.UserName, false);
                 return RedirectToLocal(returnUrl);
             }
-
-            // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            return View(model);
+            else
+            {
+                // If we got this far, something failed, redisplay form
+                ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                return View(model);
+            }
         }
 
         //
@@ -167,31 +194,171 @@ namespace MvcApplication29.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    bool logged = WebSecurity.Login(model.UserName, model.Password);
-
-                    if (logged)
+                    if (model.EmailAdres.IndexOf('@') < 1)
                     {
-                        //set auth cookie
-                        FormsAuthentication.SetAuthCookie(model.UserName, false);
+                        ModelState.AddModelError("EmailAdres", "E-mail адрес введен не корректно");
+                        return View(model);
                     }
-                    UsersContext db = new UsersContext();
-                    UserProfile TempProfile = db.UserProfiles.Find(WebSecurity.GetUserId(model.UserName));
-                    UserData CurrentUserDataModel = new UserData(TempProfile);
-                    db.UsersData.Add(CurrentUserDataModel);
-                    db.SaveChanges();
-                    return View("AddData", CurrentUserDataModel);
+                    List<int> qwe = new List<int>();
+                    for (int i = 0; i < model.UserName.Length; i++)
+                    {
+                        qwe.Add((char)model.UserName[i]);
+                    }
+                    bool LoginValid = false;
+                    for (int i = 0; i < model.UserName.Length; i++)
+                    {
+                        if (((int)model.UserName[i] > 47 && (int)model.UserName[i] < 58) ||
+                            ((int)model.UserName[i] > 64 && (int)model.UserName[i] < 91) ||
+                            ((int)model.UserName[i] > 96 && (int)model.UserName[i] < 123))
+                            LoginValid = true;
+                        else
+                        {
+                            ModelState.AddModelError("UserName", "Имя пользователя должно состоять из следущих символо: A-Z и 0-9");
+                            return View(model);
+                        }
+                    }
+                    if (LoginValid)
+                    {
+                        model.UserName.ToLower();
+                        model.EmailAdres.ToLower();
+                        if (WebSecurity.UserExists(model.UserName))
+                        {
+                            ModelState.AddModelError("UserName", "Логин занят");
+                            return View(model);
+                        }
+                        UsersContext db = new UsersContext();
+                        List<EmailModel> emailCheck = new List<EmailModel>();
+                        emailCheck = db.EmailModels.ToList();
+                        for (int i = 0; i < emailCheck.Count; i++)
+                        {
+                            if (emailCheck[i].Email == model.EmailAdres)
+                            {
+                                ModelState.AddModelError("UserName", "Пользователь с таким e-mail уже существует");
+                                return View(model);
+                            }
+                        }
+                        WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                        bool logged = WebSecurity.Login(model.UserName, model.Password);
+
+                        if (logged)
+                        {
+                            //set auth cookie
+                            FormsAuthentication.SetAuthCookie(model.UserName, false);
+                        }
+                        
+                        UserProfile TempProfile = db.UserProfiles.Find(WebSecurity.GetUserId(model.UserName));
+                        UserData CurrentUserDataModel = new UserData(TempProfile);
+                        db.UsersData.Add(CurrentUserDataModel);
+                        db.SaveChanges();
+                        EmailModel e = new EmailModel();
+                        e.Email = model.EmailAdres;
+                        e.IsConfirm = false;
+                        e.Key = Crypto.SHA256(model.EmailAdres);
+                        e.PasswordRecoverKey = Crypto.SHA256(model.EmailAdres + model.Password + model.UserName);
+                        e.UserProfile = TempProfile;
+                        db.EmailModels.Add(e);
+                        db.SaveChanges();
+
+                        SendMail("smtp.mail.ru", "pan-i@mail.ru", "7632bxr29zx6", e.Email , "public", "Welcom to public " +
+                            "Пожалуйста, активируйте Ваш аккаунт, перейдя по этой ссылке http://localhost:2520/Account/ActivationAccount/" + e.Key, null);
+                        ViewBag.currentUser = CurrentUserDataModel;
+                        return View("AddData", CurrentUserDataModel);
+                    }
                 }
                 catch (MembershipCreateUserException e)
                 {
                     ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
                 }
             }
-
+            else
+            {
+                for (int i = 0; i < model.UserName.Length; i++)
+                {
+                    if ((int)model.UserName[i] < 48 || (int)model.UserName[i] > 57 || (int)model.UserName[i] < 65 || (int)model.UserName[i] > 90 || (int)model.UserName[i] < 97 || (int)model.UserName[i] > 122 )
+                        ModelState.AddModelError("UserName", "Имя пользователя должно состоять из следущих символо: A-Z и 0-9");
+                }
+                if (model.UserName.Length < 4)
+                    ModelState.AddModelError("UserName", "Имя пользователя должно быть не менее трех символов");
+                if (model.Password != model.ConfirmPassword)
+                    ModelState.AddModelError("ConfirmPassword", "Оба пароля должны быть идентичны");
+                if (model.EmailAdres.IndexOf('@') < 1)
+                    ModelState.AddModelError("EmailAdres", "E-mail адрес введен не корректно");
+                
+            }
             // If we got this far, something failed, redisplay form
             return View(model);
         }
 
+        /// <summary>
+        /// Отправка письма на почтовый ящик C# mail send
+        /// </summary>
+        /// <param name="smtpServer">Имя SMTP-сервера</param>
+        /// <param name="from">Адрес отправителя</param>
+        /// <param name="password">пароль к почтовому ящику отправителя</param>
+        /// <param name="mailto">Адрес получателя</param>
+        /// <param name="caption">Тема письма</param>
+        /// <param name="message">Сообщение</param>
+        /// <param name="attachFile">Присоединенный файл</param>
+        public static void SendMail(string smtpServer, string from, string password,
+string mailto, string caption, string message, string attachFile = null)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(from);
+                mail.To.Add(new MailAddress(mailto));
+                mail.Subject = caption;
+                mail.Body = message;
+                if (!string.IsNullOrEmpty(attachFile))
+                    mail.Attachments.Add(new Attachment(attachFile));
+                SmtpClient client = new SmtpClient();
+                client.Host = smtpServer;
+                client.Port = 587;
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential(from.Split('@')[0], password);
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.Send(mail);
+                mail.Dispose();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Mail.Send: " + e.Message);
+            }
+        }
+
+        public ActionResult ActivationAccount(string ActivatonCode)
+        {
+            UsersContext db = new UsersContext();
+            EmailModel userEmail = new EmailModel();
+            List<EmailModel> TempList = new List<EmailModel>();
+            TempList = db.EmailModels.ToList();
+            for (int i = 0; i < TempList.Count; i++)
+            {
+                if (ActivatonCode == TempList[i].Key && WebSecurity.CurrentUserId == TempList[i].UserProfile.UserId)
+                {
+                    userEmail = TempList[i];
+                    var EditUser = db.EmailModels
+                    .Where(c => c.Id == userEmail.Id)
+                    .FirstOrDefault();
+                    EditUser.IsConfirm = true;
+                    db.SaveChanges();
+                    break;
+                }
+            }
+            ViewBag.EmailError = null;
+            return RedirectToAction("Index", "Home");
+        }
+        public ActionResult RecoverPassword()
+        {
+            return View();
+        }
+        public ActionResult RecoverPassword(PasswordRecoverModel Model)
+        {
+            UsersContext db = new UsersContext();
+            var FindUser = db.EmailModels
+                .Where(c => c.Email == ";l.plp");
+            return View();
+        }
         //
         // POST: /Account/Disassociate
 
@@ -239,7 +406,6 @@ namespace MvcApplication29.Controllers
         // POST: /Account/Manage
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Manage(LocalPasswordModel model)
         {
             bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));

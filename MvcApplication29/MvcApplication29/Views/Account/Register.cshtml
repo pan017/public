@@ -1,34 +1,40 @@
 ﻿@model MvcApplication29.Models.RegisterModel
 @{
+    Layout = "~/Views/Shared/_RegLog.cshtml";
     ViewBag.Title = "Register";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
-</hgroup>
 
-@using (Html.BeginForm()) {
-    <fieldset>
-        <legend>Registration Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>
-        </ol>
-        <input type="submit" value="Register" />
-    </fieldset>
+@using (@Html.BeginForm("Register", "Account"))
+{
+    
+    
+  <table align="center">
+                            <tr>
+                                <td>@Html.LabelFor(model => model.UserName)</td>
+                                <td>@Html.TextBoxFor(model => model.UserName)</td>
+                                <td align="left" >@Html.ValidationMessageFor(model => model.UserName)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.Password)</td>
+                                <td>@Html.PasswordFor(model => model.Password)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(m => m.ConfirmPassword)</td>
+                                <td>@Html.PasswordFor(m => m.ConfirmPassword)</td>
+                                <td align="left">@Html.ValidationMessageFor(m => m.ConfirmPassword)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(m => m.EmailAdres)</td>
+                                <td>@Html.TextBoxFor(m => m.EmailAdres)</td>
+                                <td align="left">@Html.ValidationMessageFor(m => m.EmailAdres)</td>
+                            </tr>
+                            <tr><td align="center"><input type="submit" class="btn btn-primary" value="Зарегистрироваться"  /></td></tr>
+                        </table>   
+
+         
 }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<script>
+
+</script>

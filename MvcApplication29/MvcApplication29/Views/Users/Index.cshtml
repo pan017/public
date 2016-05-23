@@ -1,7 +1,7 @@
-﻿@model MvcApplication29.Models.UserData
-@{
+﻿@{
     Layout = null;
 }
+@model MvcApplication29.Models.UserData
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,12 +63,22 @@
                 document.getElementById('window').style.display = state;
                 document.getElementById('wrap').style.display = state;
             }
-              function AddFrend() {
-                $.get("/Users/AddFrends");
-              };
-        
-
     </script>
+
+
+
+
+        <!-- Message window-->
+        <div onclick="show('none')" id="wrap"></div>
+        <!--Загрузка аватарки-->
+        <div id="window">
+            <!-- Картинка крестика-->
+            <img class="close" onclick="show('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
+            @{
+              Html.RenderAction("PostMessage", "Message", new { UserGetId = Model.UserProfile.UserId });
+}
+        </div>
+
         <div class="container-fluid">
             <div class="col-md-3 col-sm-3 col-xs-3">
 
@@ -154,12 +164,10 @@ glyphicon glyphicon-search"></div>
 
             <div class="container">
                 <div class="row">
-
                     <div class="col-md-9">
-                        <br>
                         <table bordercolor="black" border="1" width="100%" height="100%">
                             <tr>
-                                <td bgcolor="#424242">
+                                <td bgcolor="#424242" style="padding:0px; vertical-align:top;">
                                     <table width="100%" bordercolor="black" border="1">
                                         <tr align="center">
                                             <td><h2>@Html.DisplayFor(m => m.Name) @Html.DisplayFor(m => m.LastName)</h2><span class="glyphicon glyphicon-globe"></span></td>
@@ -172,7 +180,7 @@ glyphicon glyphicon-search"></div>
                                             <td> @*onclick="show('block')" onclick="location.href='@Url.Action("AddFrends", "Frends", new { id = Model.UserId })'"*@
                                                 @*<button type="button" class="btn btn-default" onclick="location.href='@Url.Action("AddFrends", "Frends", new { id = Model.UserId })'">Добавить в друзья <div class="glyphicon glyphicon-user"></div></button>*@
                                                 @Html.Raw(ViewBag.FrendStatus)
-                                            <button type="button" class="btn btn-default">Отправить сообщения <div class="glyphicon glyphicon-envelope"></div></button><br><button type="button" class="btn btn-default">Стена Васи <div class="glyphicon glyphicon-th"></div></button>
+                                                <button type="button" class="btn btn-default" onclick="show('block')">Отправить сообщения <div class="glyphicon glyphicon-envelope"></div></button><br><button type="button" class="btn btn-default">Стена Васи <div class="glyphicon glyphicon-th"></div></button>
                                             </td>
                                         </tr>
                                         <tr align="center">
