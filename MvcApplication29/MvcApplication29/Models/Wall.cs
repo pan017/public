@@ -17,8 +17,6 @@ namespace MvcApplication29.Models
         public string Text { get; set; }
         public string ContentUrl { get; set; }
         public DateTime CreationDate { get; set; }
-        public int Likes { get; set; }
-        public int Dislikes { get; set; }
         public virtual UserProfile ThisUser { get; set;}
         public virtual UserProfile PostUser {get;set;}
         }

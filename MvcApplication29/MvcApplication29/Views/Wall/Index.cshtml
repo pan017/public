@@ -1,2 +1,18 @@
-﻿@model MvcApplication29.Models.Wall
+﻿@model List<MvcApplication29.Models.Wall>
+@{
+    Layout = null;
+}
 
+
+@foreach (var item in @Model)
+{
+    <h3>@item.Title</h3>
+    <p>@item.Text</p>
+    if (item.ContentUrl != null)
+    { 
+        <img src="@item.ContentUrl" width="200" height=" 250" />
+}
+    @item.CreationDate
+     <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("DelWall", "Wall", new { wallId = item.Id })'">Del <div class="glyphicon glyphicon-user"></div></button>
+    <hr />
+}

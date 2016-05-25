@@ -11,7 +11,7 @@
     <title>View1</title>
     <style>
         body {
-            background-color: white; /* Цвет фона веб-страницы */
+            background-color: #333; /* Цвет фона веб-страницы */
 
         }
     #wrap {
@@ -75,10 +75,10 @@
 
 
     <div class="container-fluid">
-        @if (ViewBag.EmailError)
+        @*@if (ViewBag.EmailError)
         {
             <div style="background-color:white;">Адрес электронной почты не подтвержден. </div>
-        }
+        }*@
         @if (ViewBag.EmailError == null)
         {
             <div style="background-color:white;">Адрес электронной почты успешно подтвержден </div>
@@ -143,10 +143,8 @@
                 <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Frends", "Frends")'">Друзья <div class="glyphicon glyphicon-user"></div></button>
             </div>
             <div class="col-md-2">
-                <button type="button" class="btn-block btn-primary">
-                    Поиск <div class="
-glyphicon glyphicon-search"></div>
-                </button>
+                <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("FindUser", "Home")'">Поиск <div class="glyphicon glyphicon-user"></div></button>
+
             </div>
             <div class="col-md-2">
                 <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Settings", "Account")'"> Настройки <div class="glyphicon glyphicon-cog"></div></button>
@@ -170,22 +168,25 @@ glyphicon glyphicon-search"></div>
 
                 <div class="col-md-9">
                     <br>
-                    @Html.BeginForm()
+                    @using(Html.BeginForm())
                     {
                     @Html.ActionLink("edit", "../Account/AddData")
                     @Html.ActionLink("Frends", "../Frends/Frends")
                     @Html.ActionLink("my messages", "../Message/Messages")
                     @Html.ActionLink("post message", "../Message/PostMessage")
                     @Html.ActionLink("asd", "../Users/Index/5")
-                    @{Html.RenderAction("Index", "Wall");}
-                    @foreach (var item in ViewBag.Users)
+                   
+                    foreach (var item in ViewBag.Users)
                     {
                         <p><a href="/Users/Index/@item.UserProfile.UserId">@item.UserProfile.UserName </a></p>
                         <hr />
                     }
                     }
-     
-                    
+                    @{Html.RenderAction("AddWall", "Wall");}
+                    @{ Html.RenderAction("Index", "Wall"); }
+                    <div>
+                       
+                    </div>
                 </div>
             </div>
 
