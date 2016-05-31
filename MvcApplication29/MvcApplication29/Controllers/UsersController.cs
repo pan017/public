@@ -17,6 +17,7 @@ namespace MvcApplication29.Controllers
         // Другой профиль
         public ActionResult Index(int id) 
         {
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             if (id == WebSecurity.CurrentUserId)
             {
                 return RedirectToAction("Index", "Home");
@@ -66,7 +67,7 @@ namespace MvcApplication29.Controllers
                     }
                 }
                 else 
-                    ViewBag.FrendStatus = "<button type=\"button\" class=\"btn btn-default\" onclick=\"location.href='/Frends/AddFrends/"+ id+"'\">Добавить в друзья <div class=\"glyphicon glyphicon-user\"></div></button>";
+                    ViewBag.FrendStatus = "<button type=\"button\" class=\"btn\" onclick=\"location.href='/Frends/AddFrends/"+ id+"'\">Добавить в друзья </button>";
             }
 
             ViewBag.currentUser = currentUser;

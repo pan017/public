@@ -35,9 +35,9 @@ namespace MvcApplication29.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult PostMessage(Message model, int UserGetId)
-        {            
-            UsersContext db = new UsersContext();
+        public ActionResult PostMessage(Message model, int UserGetId, string returnUrl)
+        {
+            UsersContext db = new UsersContext();           
             model.UserGet = db.UserProfiles.Find(UserGetId);
             model.UserPost = db.UserProfiles.Find(WebSecurity.CurrentUserId);
             model.Time = DateTime.Now;
@@ -49,11 +49,12 @@ namespace MvcApplication29.Controllers
             int CurrentUserPageId = model.UserGet.UserId;
             db.Messages.Add(model);
             db.SaveChanges();
-            Uri MyUrl = Request.UrlReferrer;
-            if (MyUrl.LocalPath == "/Message/Dialog")
-                return RedirectToAction("Dialog", "Message", new { UserId = UserGetId });
-            else
-                return RedirectToAction("Index", "Users", new { id = CurrentUserPageId });
+            return Redirect(returnUrl);
+            //Uri MyUrl = Request.UrlReferrer;
+            //if (MyUrl.LocalPath == "/Message/Dialog")
+            //    return RedirectToAction("Dialog", "Message", new { UserId = UserGetId });
+            //else
+            //    return RedirectToAction("Index", "Users", new { id = CurrentUserPageId });
             
         }
 
@@ -64,6 +65,7 @@ namespace MvcApplication29.Controllers
         //}
         public ActionResult Messages()
         {
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             UsersContext db = new UsersContext();
             List<Message> TempList = new List<Message>();
             TempList = db.Messages.ToList();
@@ -115,6 +117,7 @@ namespace MvcApplication29.Controllers
             }
 
            // ViewBag.DialogList = DialogList;
+            // Получаем список диалогов как вконтакте
             List<MessageModel> NewDialogList = new List<MessageModel>();
             for (int i = 0; i < DialogList.Count; i++)
             {
@@ -139,13 +142,17 @@ namespace MvcApplication29.Controllers
                 }
                 NewDialogList.Add(tempMessageModel);
             }
-            ViewBag.DialogList = NewDialogList;
+            // СОртируем по дате отрпавки
+            List<MessageModel> SortedDialogList = NewDialogList.OrderBy(o => o.Message.Time).ToList();
+            SortedDialogList.Reverse();
+            ViewBag.DialogList = SortedDialogList;
             ViewBag.currentUser = currentUser;
             ViewBag.CurrentUserMessages = CurrentUserMessages;
             return View();
         }
         public ActionResult Dialog (int UserId)
         {
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             UsersContext db = new UsersContext();
             List<UserData> TempUserList = new List<UserData>();
             TempUserList = db.UsersData.ToList();
@@ -167,6 +174,7 @@ namespace MvcApplication29.Controllers
                     (TempList[i].UserPost.UserId == WebSecurity.CurrentUserId && TempList[i].UserGet.UserId == UserId))
                     DialogList.Add(TempList[i]);
             }
+      
             List<MessageModel> NewDialogList = new List<MessageModel>();
             for (int i = 0; i < DialogList.Count; i++)
             {
@@ -191,6 +199,36 @@ namespace MvcApplication29.Controllers
                 }
                 ViewBag.UserGet = UserId;
                 NewDialogList.Add(tempMessageModel);
+            }
+            // Если были нерпочитанные сообщения в диалоге, т опри открытии диалога меняем их статус
+            for (int i = 0; i < NewDialogList.Count; i++)
+            {
+                if(NewDialogList[i].Message.IsRead == false && NewDialogList[i].Message.UserGet.UserId == WebSecurity.CurrentUserId)
+                {
+                    // создаем переменну _tempIndex и передаем ей id сообщения
+                    // после чего используем ее в LINQ запросе
+                    // Все это необходимо т.к. EntityFramework не поддерживает индексаторы
+                    int _tempIndex = NewDialogList[i].Message.Id;
+                    var EditStatus = db.Messages
+                        .Where(w => w.Id == _tempIndex)
+                        .FirstOrDefault();
+                    EditStatus.IsRead = true;
+                    NewDialogList[i].Message.IsRead = true;
+                    db.SaveChanges();
+                }
+
+            }
+            for (int i = 0; i < DialogList.Count; i++)
+            {
+                if (DialogList[i].IsRead == false && DialogList[i].UserGet.UserId == WebSecurity.CurrentUserId)
+                {
+                    int _tempIndex = DialogList[i].Id;
+                    var EditStatus = db.Messages
+                        .Where(w => w.Id == _tempIndex)
+                        .FirstOrDefault();
+                    EditStatus.IsRead = true;
+                    db.SaveChanges();
+                }
             }
             return View(NewDialogList);
         }

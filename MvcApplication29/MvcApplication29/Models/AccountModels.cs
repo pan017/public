@@ -51,16 +51,16 @@ namespace MvcApplication29.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Старый пароль")]
         public string OldPassword { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Новый пароль")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
+        [Display(Name = "Повторите новый\nпароль")]
         public string ConfirmPassword { get; set; }
     }
 

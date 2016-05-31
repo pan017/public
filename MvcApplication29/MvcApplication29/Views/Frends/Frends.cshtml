@@ -1,25 +1,64 @@
 ﻿@{
     Layout = "~/Views/Shared/UserView.cshtml";
+
 }
 @model List<MvcApplication29.Models.UserData>
+<br />
+<input type="text" id="FindUser" placeholder="Введите имя" style="margin-left:15px;">
+<input type="button" value="Поиск" class="btn" onclick="location.href=q()" />
+<br />
 
-                        
-@foreach (var item in Model)
-{
-                        <table border="1">
-                            <tr>
-                                <td rowspan="4"><img src="@item.AvatarUrl" width="160" height="160"></td>
-                                <td colspan="1"><a href="/Users/Index/@item.UserProfile.UserId">@item.Name @item.LastName</a></td>
-                            </tr>
-                            <tr>
-                                <td>@item.City</td>
-                            </tr>
-                            <tr>
-                                <td>17 лет</td>
-                            </tr>
-                            <tr><td>Написать Сообщение</td></tr>
-                       </table>
-    
-                        <br />
-                        }
+
+  <table border width="100%" style="margin-left:15px;">
+      @if (ViewBag.NotConfirm != null)
+      {
+          @Html.Raw(ViewBag.NotConfirm);
+         
+      }
+      
+    @foreach (var item in Model)
+    {
+        
+        int newDivId = 0;
+
+        newDivId = item.UserProfile.UserId;
+        string wr = "wr" + newDivId.ToString();
+        string wind = "wind" + newDivId.ToString();
+        string close = "clo" + newDivId.ToString();
+      <!-- Message window-->
+<div class="@wr" onclick="sho('none', @newDivId)" id="wr"></div>
+<!--Загрузка аватарки-->
+    <div class="@wind"  id="wind">
+        <!-- Картинка крестика-->
+        <img class="clo" onclick="sho('none', @newDivId)" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
+        @{
+        Html.RenderAction("PostMessage", "Message", new { UserGetId = item.UserProfile.UserId });
+        }
+    </div>
+    <tr height="93px">
+        <td width="105"><a href="/Users/Index/@item.UserProfile.UserId"><img src="@item.AvatarUrl" height="93" width="105"></a></td>
+        <td width="366px" height="83px" align="center"><h4><a href="/Users/Index/@item.UserProfile.UserId" >@item.Name @item.LastName</a> <span class="glyphicon glyphicon-globe"></span></h4></td>
+        <td height="83px" align="center"><button type="button" class="btn" onclick="sho('block','@newDivId')">Отправить сообщение </button></td>
+    </tr>
+}
+
+</table>
+
+<script type="text/javascript">
+    function q() {
+        var s = '/Frends/FindUser?Model=' + document.getElementById('FindUser').value
+        return s
+    }
+    //Функция показа
+    function sho(state, divId) {
+        var s1 = 'wind'+ divId
+        var s2 = 'wr'+ divId
+        
+        document.getElementsByClassName(s1)[0].style.display = state;
+        document.getElementsByClassName(s2)[0].style.display = state;
+    }
+</script>
+
+
+
 

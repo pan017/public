@@ -1,18 +1,50 @@
 ﻿@model List<MvcApplication29.Models.Wall>
 @{
     Layout = null;
+    
+    Model.Reverse();
+    
+    
+    
 }
 
-
-@foreach (var item in @Model)
-{
-    <h3>@item.Title</h3>
-    <p>@item.Text</p>
-    if (item.ContentUrl != null)
-    { 
-        <img src="@item.ContentUrl" width="200" height=" 250" />
-}
-    @item.CreationDate
-     <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("DelWall", "Wall", new { wallId = item.Id })'">Del <div class="glyphicon glyphicon-user"></div></button>
+    @if (Model.Count < 1)
+    {
+        <h4 style="padding:30px;">У вас в блоге пока нету записей :(</h4>
+    }
     <hr />
-}
+    <table style="background-color:lightblue; width:700px; padding-left:15px;">
+    @foreach (var item in @Model)
+    {
+
+<tr>
+        <td style="padding-left:10px;">
+            @if (item.Title != null)
+            {
+                <h3 style="margin-top:-10px;">@item.Title</h3> 
+            }
+            else
+            {
+               
+            }        
+            <p>@item.Text</p>
+            @if (item.ContentUrl != null)
+            {
+                <img src="@item.ContentUrl" width="200" height=" 250" /> <br />
+            }
+           
+            <h6>
+                @item.CreationDate
+            <button type="button" onclick="location.href='@Url.Action("DelWall", "Wall", new { wallId = item.Id })'">Удалить </button>
+        </h6>
+            <hr />
+    </td>
+</tr>
+
+
+
+
+       
+
+    }
+</table>

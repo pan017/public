@@ -1,6 +1,84 @@
-.row div{
-    height: 50px;
-    background: #333;
-    
+body{
+    background-color:white/* Цвет фона веб-страницы */
+       
+	        } 
+.row div {
+
+    height:100px;
+    width: 300px;
+     background-color: SteelBlue;
+}
+.e div {
+
+    height:100px;
+    width: 208px;
+     
+}
+.q div {
+    height:70px;
+    width: 150px;
     
 }
+.r div {
+   display: block;
+    height:800px;
+    width: 700px;
+     background-color: LightBlue;
+}
+.t div {
+    height:100px;
+    width: 300px;
+     background-color: bisque;
+}
+.o div {
+   
+     background-color: LightBlue;
+}
+.td{
+    padding:2px;
+}
+.ol{
+    marker:none;
+}
+.col { 
+  
+  
+    word-wrap: break-word; /* Перенос слов */ 
+   }
+
+#wr {
+    width:100%;
+    height:100%;
+            display: none;
+            opacity: 0.8;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            padding: 16px;
+            background-color: rgba(1, 1, 1, 0.725);
+            z-index: 100;
+            overflow: auto;
+        }
+
+        #wind {
+            width: 700px;
+            height: 200px;
+            margin: 50px auto;
+            display: none;
+            background: #fff;
+            z-index: 200;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            padding: 10px;
+        }
+
+        .clo {
+            margin-left: 624px;
+            margin-top: 2px;
+            cursor: pointer;
+        }

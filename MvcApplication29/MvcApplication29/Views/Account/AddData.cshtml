@@ -13,79 +13,100 @@
 
     }
 </script>
-@using (@Html.BeginForm("AddData", "Account"))
+@using (@Html.BeginForm("AddData", "Account",  FormMethod.Post, new { enctype = "multipart/form-data", Id = "AvatarImage" }))
 {
+    <br />
+    <table class="td">
+        <tr>
+            <td class="td">@Html.LabelFor(m => m.Name)</td>
+            <td class="td">@Html.TextBoxFor(m => m.Name)</td>
+            <td rowspan="9" align="center">
+                <script>
+ function PreviewImages() {
+     var inputID = document.getElementById('input_clone');
+     var totalImages = inputID.files.length;
+     var imagesPerRow = 3;
+     var numRows = totalImages / imagesPerRow;
+     var row = "";
+     var cell = "";
+     var element1 = "";
+     var elementID = "";
 
-    <div class="col-md-4 col-sx-4 col-xs-4 " style="background-color: #605e5e">
-        <div class="control-group">
-            @Html.LabelFor(m => m.Name)
-            <div class="controls">
-                @Html.TextBoxFor(m => m.Name)
-            </div>
-        </div>
+     oFReader = new FileReader();
 
-        <div class="control-group">
-            @Html.LabelFor(m => m.LastName)
-            <div class="controls">
-                @Html.TextBoxFor(m => m.LastName)
-            </div>
+     oFReader.onload = function (oFREvent) {
+         var dataURI = oFREvent.target.result;
+         var image = document.getElementById("qw");
+         image.src = dataURI;
+     };
 
-        </div>
-        <div class="control-group">
-            @Html.LabelFor(m => m.BrithDay)
-            <div class="controls">
-                @*@Html.EditorFor(m => m.BrithDay.Date, new { @type = "date" })*@
-                @Html.TextBoxFor(m => m.BrithDay , null, new { @class = "datePicker" })
-                @Html.ValidationMessageFor(m => m.BrithDay, "", new { @class = "text-danger" })
-            </div>
-        </div>
+     oFReader.readAsDataURL(document.getElementById("input_clone").files[0]);
 
-        <div class="control-group">
-            @Html.LabelFor(m => m.City)
-            <div class="controls">
-                @Html.TextBoxFor(m => m.City)
-            </div>
-        </div>
-        <br />
-        <br />
-        <br />
+ }
+
+                    window.addEventListener("load", function () {
+                        document.getElementById("input_clone").addEventListener("change", PreviewImages, false);
+                    }, false);
+                    //]]>
+
+                </script>
+                <img src="@Model.AvatarUrl" id="qw" width="50%" height="50%"> <br> 
+                <h5>Выберите файл для загрузки</h5>
+
+                    <input type="file" id="input_clone" class="btn" name="upload" /><br>
+                </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="color:red;">@Html.ValidationMessage("Name")</td>
+        </tr>
+        <tr>
+            <td class="td">@Html.LabelFor(m => m.LastName)</td>
+            <td class="td">@Html.TextBoxFor(m => m.LastName)</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="color:red;">@Html.ValidationMessage("LastName")</td>
+        </tr>
+        <tr>
+            <td class="td">@Html.LabelFor(m => m.BrithDay)</td>
+            <td class="td">
+                @Html.TextBoxFor(m => m.BrithDay, null, new { @class = "datePicker" })
+            @Html.ValidationMessageFor(m => m.BrithDay, "", new { @class = "text-danger" })
+        </td>
+        </tr>
+        <tr>
+            <td class="td">@Html.LabelFor(m => m.City)</td>
+            <td class="td">@Html.TextBoxFor(m => m.City)</td>
+        </tr>
+        <tr>
+            <td class="td">@Html.LabelFor(m => m.Phone)</td>
+            <td class="td">@Html.TextBoxFor(m => m.Phone)</td>
+        </tr>
+        <tr>
+            <td class="td">@Html.LabelFor(m => m.Skype)</td>
+            <td class="td">@Html.TextBoxFor(m => m.Skype)</td>
+        </tr>
+        <tr>
+            <td class="td">@Html.LabelFor(m => m.School)</td>
+            <td class="td">@Html.TextBoxFor(m => m.School)</td>
+        </tr>
+        <tr>
+            <td class="td">@Html.LabelFor(m => m.Job)</td>
+            <td class="td">@Html.TextBoxFor(m => m.Job)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="td" align="right"><button type="submit" class="btn btn-primary">Сохранить</button></td>
+        </tr>
+
+
+        
+
+        
+
        
-    </div>
 
-    <div class="col-md-4 col-sm-4 " style="background-color: #605e5e">
-        <div class="form-horizontal">
-            <div class="control-group">
-                @Html.LabelFor(m => m.Phone)
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.Phone)
-                </div>
-            </div>
+       
+    </table>
 
-
-            <div class="control-group">
-                @Html.LabelFor(m => m.Skype)
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.Skype)
-                </div>
-            </div>
-
-            <div class="control-group">
-                @Html.LabelFor(m => m.School)
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.School)
-                </div>
-            </div>
-            <div class="control-group">
-                @Html.LabelFor(m => m.Job)
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.Job)
-                </div>
-            </div>
-            <br />
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-            
-        </div>
-        <br />
-    </div>
 
 }

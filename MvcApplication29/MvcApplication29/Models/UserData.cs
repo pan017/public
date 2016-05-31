@@ -29,7 +29,7 @@ namespace MvcApplication29.Models
             public string Sex { get; set; }
             [Display(Name = "Родной город")]
             public string City { get; set; }
-            [Display(Name = "Номер мобильного телефона")]
+            [Display(Name = "Номер телефона")]
             public string Phone { get; set; }
             [Display(Name = "Номер домашнего телефона")]
             public string HPhone { get; set; }
@@ -71,29 +71,10 @@ namespace MvcApplication29.Models
             public UserData(UserProfile UserProfile)
             {
 
-                this.About = "About";
+                
                 this.AvatarUrl = "/Content/images/None-Avatar.jpg";
                 this.BrithDay = DateTime.Now;
-                this.City = "Your City";
-                this.College = " ";
-                this.Entertainment = "Your College";
-                this.FavoriteBook = "Your Favorites Book";
-                this.FavoriteGames = "Your Favorites Games";
-                this.FavoriteKino = "Your Favorites Kino";
-                this.FavoriteMusik = "Your Favorites Musik";
-                this.HPhone = "Your Home Phone";
-                this.Instagram = "Your Instagram";
-                this.Institute = "Your Institute";
-                this.Interesses = "Your Interesses";
-                this.Job = "Your Job";
-                this.LastName = "Your Last Name ";
-                this.Name = "Your First Name";
-                this.Phone = "Your Phone number";
-                this.School = "Your School";
-                this.Sex = "М";
-                this.Skype = "Your Skype";
-                this.Twitter = "Your Twitter";
-                this.WebSite = "Your Web-Site";
+             
                 this.UserProfile = UserProfile;
             }
         }

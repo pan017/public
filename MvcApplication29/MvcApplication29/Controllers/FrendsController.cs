@@ -5,9 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
-
+using MvcApplication29.Filters;
 namespace MvcApplication29.Controllers
 {
+    [InitializeSimpleMembership]
     public class FrendsController : Controller
     {
         //
@@ -15,6 +16,7 @@ namespace MvcApplication29.Controllers
 
         public ActionResult Frends()
         {
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             List<FrendsModel> TempList = new List<FrendsModel>();
             List<FrendsModel> FrendsList = new List<FrendsModel>();
             UsersContext db = new UsersContext();
@@ -64,7 +66,7 @@ namespace MvcApplication29.Controllers
             // Если есть входящие заявки - генерируем кнопку
             if (NotConfirmFrends.Count != 0)
             {
-                ViewBag.NotConfirm = "<button type=\"button\" class=\"btn btn-default\" onclick=\"location.href='/Frends/RequestFrends'\">Заявки в друзья(" + NotConfirmFrends.Count + ") <div class=\"glyphicon glyphicon-user\"></div></button>";
+                ViewBag.NotConfirm = "<button style=\"margin-left:15px;\" type=\"button\" class=\"btn\" onclick=\"location.href='/Frends/RequestFrends'\">Заявки в друзья(" + NotConfirmFrends.Count + ") </button> <br //>";
             }
             return View(ConfirmFrends);
         }
@@ -96,7 +98,7 @@ namespace MvcApplication29.Controllers
         }
         public ActionResult RequestFrends()
         {
-
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             List<FrendsModel> TempList = new List<FrendsModel>();
             List<FrendsModel> FrendsList = new List<FrendsModel>();
             UsersContext db = new UsersContext();
@@ -147,6 +149,64 @@ namespace MvcApplication29.Controllers
             db.Frends.Remove(RemoveFrendModel);
             db.SaveChanges();
             return RedirectToAction("RequestFrends");
+        }
+        public ActionResult FindUser (string Model)
+        {
+            if (String.IsNullOrEmpty(Model))
+                return RedirectToAction("Frends");
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
+            List<FrendsModel> TempList = new List<FrendsModel>();
+            List<FrendsModel> FrendsList = new List<FrendsModel>();
+            UsersContext db = new UsersContext();
+            List<UserData> TempUserList = new List<UserData>();
+            List<UserData> ConfirmFrends = new List<UserData>();
+            List<UserData> NotConfirmFrends = new List<UserData>();
+          
+
+            TempList = db.Frends.ToList();
+            // Получаем все заявки в друзья
+            for (int i = 0; i < TempList.Count; i++)
+            {
+                if (TempList[i].UserA.UserProfile.UserId == WebSecurity.CurrentUserId
+                    || TempList[i].UserB.UserProfile.UserId == WebSecurity.CurrentUserId)
+                    FrendsList.Add(TempList[i]);
+            }
+            // Получаем модель текущего пользоваеля
+
+            TempUserList = db.UsersData.ToList();
+            for (int i = 0; i < TempUserList.Count; i++)
+            {
+                if (TempUserList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
+                {
+                    ViewBag.currentUser = TempUserList[i];
+                    break;
+                }
+            }
+            // Получаем потвержденные и не подтвержденные заявки в друзья
+            for (int i = 0; i < FrendsList.Count; i++)
+            {
+                if (FrendsList[i].UserA.UserProfile.UserId == WebSecurity.CurrentUserId)
+                    if (FrendsList[i].IsConfirm)
+                        ConfirmFrends.Add(FrendsList[i].UserB);
+                    else
+                        NotConfirmFrends.Add(FrendsList[i].UserB);
+                else
+                    if (FrendsList[i].IsConfirm)
+                        ConfirmFrends.Add(FrendsList[i].UserA);
+                    else
+                        NotConfirmFrends.Add(FrendsList[i].UserA);
+            }
+            
+            string Find = Model.Trim().ToLower();
+            List<UserData> FindUsersList = new List<UserData>();
+            for (int i = 0; i < ConfirmFrends.Count; i++)
+            {
+                if (ConfirmFrends[i].Name.ToLower() == Find || ConfirmFrends[i].LastName.ToLower() == Find)
+                    FindUsersList.Add(ConfirmFrends[i]);
+            }
+            ViewBag.FrendsCount = ConfirmFrends.Count;
+            ViewBag.Frends = FindUsersList;
+            return View("Frends", FindUsersList);
         }
     }
 }

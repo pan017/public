@@ -1,398 +1,52 @@
-﻿@{
-    Layout = null;
-}
+﻿
 @model MvcApplication29.Models.UserData
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width" />
-    <script type="text/javascript" src="jquery.unobtrusive-ajax.js"></script>
-    @Scripts.Render("~/bundles/modernizr")
-    <link href="~/Content/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-        body {
-            background-color: #333; /* Цвет фона веб-страницы */
-        }
-        #wrap {
-            display: none;
-            opacity: 0.8;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            padding: 16px;
-            background-color: rgba(1, 1, 1, 0.725);
-            z-index: 100;
-            overflow: auto;
-        }
-
-        #window {
-            width: 400px;
-            height: 400px;
-            margin: 50px auto;
-            display: none;
-            background: #fff;
-            z-index: 200;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            padding: 16px;
-        }
-
-        .close {
-            margin-left: 364px;
-            margin-top: 4px;
-            cursor: pointer;
-        }
-        </style>
-
-    </head>
-    <body>
-        <script type="text/javascript">
-
-            //Функция показа
-            function show(state){
-
-                document.getElementById('window').style.display = state;
-                document.getElementById('wrap').style.display = state;
-            }
-    </script>
-
-
-
-
-        <!-- Message window-->
-        <div onclick="show('none')" id="wrap"></div>
-        <!--Загрузка аватарки-->
-        <div id="window">
-            <!-- Картинка крестика-->
-            <img class="close" onclick="show('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
-            @{
-              Html.RenderAction("PostMessage", "Message", new { UserGetId = Model.UserProfile.UserId });
-}
-        </div>
-
-        <div class="container-fluid">
-            <div class="col-md-3 col-sm-3 col-xs-3">
-
-                <div class="col-md-5 col-sm-5-col-xs-5"><img src="~/Content/images/22.png" class="img-responsive" alt="Responsive image"></div>
-                <div class="col-md-5 col-sm-5-col-xs-5">@ViewBag.CurrentUser.Name @ViewBag.CurrentUser.LastName</div>
-                <div class="col-md-2 col-sm-2 col-xs-2">
-                    <br><span class="glyphicon glyphicon-globe"></span>
-                </div>
-
-                <table border="1">
-                    <tr>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="col-md-5  col-sm-5-col-xs-5"><img src="@ViewBag.CurrentUser.AvatarUrl" width="250" height="250"></div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-
-                        <td><button type="button" class="btn-block btn-primary">Фотографии <div class="glyphicon glyphicon-picture"></div></button></td>
-                    </tr>
-
-                    <tr>
-                        <td><button type="button" class="btn-block btn-primary">Видеозаписи <div class="glyphicon glyphicon-film"></div></button></td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn-block btn-primary">Музыка <div class="glyphicon glyphicon-headphones"></div></button></td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("AddData", "Account")'">Информация <div class="glyphicon glyphicon-info-sign"></div></button></td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn-block btn-primary">Выйти <div class="glyphicon glyphicon-log-out"></div></button></td>
-                    </tr>
-                </table>
-            </div>
-
-
-            <div class="col-md-9">
-
-
-                <div class="col-md-2">
-
-                    <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Messages", "Message")'">Сообщения <div class="glyphicon glyphicon-envelope"></div></button>
-
-                </div>
-                <div class="col-md-2">
-
-                    <button type="button" class="btn-block btn-primary">Стена <div class="glyphicon glyphicon-list-alt"></div> </button>
-
-                </div>
-                <div class="col-md-2">
-
-                    <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Frends", "Frends")'">Друзья <div class="glyphicon glyphicon-user"></div></button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn-block btn-primary">
-                        Поиск <div class="
-glyphicon glyphicon-search"></div>
-                    </button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn-block btn-primary">
-                        Настройки <div class="
-          glyphicon glyphicon-cog"></div>
-                    </button>
-                </div>
-                <div class="col-md-2">
-
-                    <button type="button" class="btn-block btn-primary">
-                        Помощь <div class="
-          glyphicon glyphicon-question-sign"></div>
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-9">
-                        <table bordercolor="black" border="1" width="100%" height="100%">
-                            <tr>
-                                <td bgcolor="#424242" style="padding:0px; vertical-align:top;">
-                                    <table width="100%" bordercolor="black" border="1">
-                                        <tr align="center">
-                                            <td><h2>@Html.DisplayFor(m => m.Name) @Html.DisplayFor(m => m.LastName)</h2><span class="glyphicon glyphicon-globe"></span></td>
-                                        </tr>
-                                        <tr align="center">
-                                            <td><img src="@Model.AvatarUrl" width="200" height="200"></td>
-                                        </tr>
-                                        <br>
-                                        <tr align="center">
-                                            <td> @*onclick="show('block')" onclick="location.href='@Url.Action("AddFrends", "Frends", new { id = Model.UserId })'"*@
-                                                @*<button type="button" class="btn btn-default" onclick="location.href='@Url.Action("AddFrends", "Frends", new { id = Model.UserId })'">Добавить в друзья <div class="glyphicon glyphicon-user"></div></button>*@
-                                                @Html.Raw(ViewBag.FrendStatus)
-                                                <button type="button" class="btn btn-default" onclick="show('block')">Отправить сообщения <div class="glyphicon glyphicon-envelope"></div></button><br><button type="button" class="btn btn-default">Стена Васи <div class="glyphicon glyphicon-th"></div></button>
-                                            </td>
-                                        </tr>
-                                        <tr align="center">
-                                            <td>Город @Html.DisplayFor(m => m.City)
-                                            <br>Дата рождения @Html.DisplayFor(m => m.BrithDay.Day).@Html.DisplayFor(m => m.BrithDay.Date.Month).@Html.DisplayFor(m => m.BrithDay.Date.Year)   
-                                            <br>Телефон @Html.DisplayFor(m => m.Phone)
-                                            <br>Skype @Html.DisplayFor(m => m.Skype)
-                                            <br>Местоработы @Html.DisplayFor(m => m.Job)</td>
-                                        </tr>
-                                        <tr align="center">
-                                            <td><button type="button" class="btn btn-default">Дополнительно <div class="glyphicon glyphicon-user"></div></button></td>
-                                        </tr>
-                                    </table>
-                                </td>
-
-
-
-
-                                <td>
-                                    <table bordercolor="black" border="1" width="100%" height="100%" margin-top="auto">
-                                        <tr>
-                                            <td bgcolor="#424242">
-                                                <table width="100%" cellpadding="10" bordercolor="black" border="1">
-                                                    <tr align="center">
-                                                        <td colspan="2"><h2>Друзья Васи </h2></td>
-                                                    </tr>
-                                                    <tr align="center">
-                                                        <td>
-                                                            <table border="1">
-                                                                <tr>
-                                                                    <td><h5>Друзья оналайн</h5></td>
-                                                                    <br>
-
-                                                                </tr>
-
-                                                                <td>
-                                                                    <table border="1">
-                                                                        <tr>
-                                                                            <td rowspan="4"><img src="" width="60" height="60"></td>
-                                                                            <td colspan="1">Антон Печкин</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Минск</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>17 лет</td>
-
-                                                                        </tr>
-
-                                                                        <td>Написать Сообщение</td>
-
-
-
-                                                                    </table><br><table border="1">
-                                                                        <tr>
-                                                                            <td rowspan="4"><img src="" width="60" height="60"></td>
-                                                                            <td colspan="1">Антон Печкин</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Минск</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>17 лет</td>
-
-                                                                        </tr>
-
-                                                                        <td>Написать Сообщение</td>
-
-
-
-                                                                    </table><br><table border="1">
-                                                                        <tr>
-                                                                            <td rowspan="4"><img src="" width="60" height="60"></td>
-                                                                            <td colspan="1">Антон Печкин</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Минск</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>17 лет</td>
-
-                                                                        </tr>
-
-                                                                        <td>Написать Сообщение</td>
-
-
-
-                                                                    </table>
-                                                                </td>
-
-
-                                                            </table>
-                                                        </td>
-                                                        <td>
-                                                            <table border="1">
-                                                                <tr>
-                                                                    <td><h5>Все друзья</h5></td>
-                                                                    <br>
-
-                                                                </tr>
-
-                                                                <td>
-                                                                    <table border="1">
-                                                                        <tr>
-                                                                            <td rowspan="4"><img src="" width="60" height="60"></td>
-                                                                            <td colspan="1">Антон Печкин</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Минск</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>17 лет</td>
-
-                                                                        </tr>
-
-                                                                        <td>Написать Сообщение</td>
-
-
-
-                                                                    </table><br><table border="1">
-                                                                        <tr>
-                                                                            <td rowspan="4"><img src="" width="60" height="60"></td>
-                                                                            <td colspan="1">Антон Печкин</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Минск</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>17 лет</td>
-
-                                                                        </tr>
-
-                                                                        <td>Написать Сообщение</td>
-
-
-
-                                                                    </table><br><table border="1">
-                                                                        <tr>
-                                                                            <td rowspan="4"><img src="" width="60" height="60"></td>
-                                                                            <td colspan="1">Антон Печкин</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Минск</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>17 лет</td>
-
-                                                                        </tr>
-
-                                                                        <td>Написать Сообщение</td>
-
-
-
-                                                                    </table><br>
-                                                                </td>
-
-                                                            </table>
-
-
-
-                                                            <br>
-                                                        <td> </td>
-
-
-                                                        <td>
-                                                            <table bordercolor="black" border="0" width="100%" height="100%" margin-top="auto">
-                                                                <tr>
-                                                                    <td bgcolor="#424242">
-                                                                        <table width="100%" cellpadding="10" bordercolor="black" border="1">
-                                                                            <tr align="center">
-
-                                                                                <td><h2>Медиа</h2></td>
-                                                                            </tr>
-                                                                            <tr align="center">
-
-                                                                                <td>Фотографии Васи</td>
-                                                                            </tr>
-
-                                                                            <tr align="center">
-                                                                                <td><img src="Koala.jpg" width="200" height="200"></td>
-                                                                            </tr>
-                                                                            <br>
-                                                                            <tr align="center">
-                                                                                <td>Видео Васи</td>
-                                                                            </tr>
-                                                                            <tr align="center">
-                                                                                <td><img src="Lighthouse.jpg" width="200" height="200"></td>
-                                                                            </tr>
-                                                                            <tr align="center">
-                                                                                <td>Аудиозаписи Васи</td>
-                                                                            </tr>
-                                                                            <tr align="center">
-                                                                                <td width="100" height="100"></td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        </table>
-                                                            </table></table></table></div></div></div></div>
-                                                                        <script src="~/Content/bootstrap.js"></script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<table width="700px" style="margin-top:15px; background-color:lightblue;">
+    <tr style="margin-left:15px;">
+        <td rowspan=" 3" width="50%" style="margin-left:15px;">
+            <img height="400" width="305" src="@Model.AvatarUrl" />
+        </td>
+        <td align="left"><h2>@Model.Name @Model.LastName</h2> </td>
+
+    </tr>
+    <tr>
+        <td>
+            @Html.Raw(ViewBag.FrendStatus)<br />
+        <button type="button" class="btn" onclick="show('block')">Отправить сообщение</button>
+    </td>
+    </tr>
+    <tr>
+        <td style="padding-top: -20px; margin-left: 15px;">
+           <p>Родной город:@Model.City </p>
+            <p> Дата рождения:@Model.BrithDay.ToShortDateString()</p>
+            <p> Телефон:@Model.Phone</p>
+            <p> Skype:@Model.Skype</p>
+            <p>Школа:@Model.School</p>
+            <p> Место работы:@Model.Job </p>
+        </td>
+    </tr>
+
+        @{Html.RenderAction("ViewWallUser", "Wall", new {UserId = Model.UserProfile.UserId });}
+        
+</table>
+
+<script type="text/javascript">
+
+    //Функция показа
+    function show(state) {
+
+        document.getElementById('wind').style.display = state;
+        document.getElementById('wr').style.display = state;
+    }
+</script>
+<!-- Message window-->
+<div onclick="show('none')" id="wr"></div>
+<!--Загрузка аватарки-->
+<div id="wind">
+    <!-- Картинка крестика-->
+    <img class="clo" onclick="show('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
+    @{
+        Html.RenderAction("PostMessage", "Message", new { UserGetId = Model.UserProfile.UserId });
+    }
+</div>
 

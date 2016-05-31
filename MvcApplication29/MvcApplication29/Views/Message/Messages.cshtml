@@ -2,252 +2,68 @@
 
 @{
     ViewBag.Title = "Messages";
-    Layout = null;
+    string Message;
 }
 
-<!DOCTYPE html>
+<h2>Сообщения</h2>
+<div class="col">
+    <hr />
+    <table width="100%">
 
-<html>
-<head>
-    <link href="~/Content/css/bootstrap.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width" />
-    <title>View1</title>
-    <style>
-        body {
-            background-color: #333; /* Цвет фона веб-страницы */
-        }
-        td {
-            margin-left: 5px;
-            border-radius: 10px;
-        }
+        @foreach (var item in ViewBag.DialogList)
+        {
+            Message = item.Message.Text;
+            if (Message.Length > 60)
+            {
+                Message = Message.Remove(40);
+                Message += "...";
+            }
+            <tr style="cursor:pointer;" onclick="location.href='@Url.Action("Dialog", "Message", new { UserId = item.UserData.UserProfile.UserId })'">
 
-        tr {
-            margin-top: 5px;
-        }
-        #wrap {
-            display: none;
-            opacity: 0.8;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            padding: 16px;
-            background-color: rgba(1, 1, 1, 0.725);
-            z-index: 100;
-            overflow: auto;
-        }
+                <td width="110px" height="10%">
 
-        #window {
-            width: 640px;
-            height: 800px;
-            margin: 50px auto;
-            display: none;
-            background: #fff;
-            z-index: 200;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            padding: 16px;
-        }
-
-        .close {
-            margin-left: 364px;
-            margin-top: 4px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <script type="text/javascript">
-
-        //Функция показа
-        function show(state) {
-
-            document.getElementById('window').style.display = state;
-            document.getElementById('wrap').style.display = state;
-        }
-        function AddFrend() {
-            $.get("../Frends/AddFrends");
-        };
-
-    </script>
-    <div onclick="show('none')" id="wrap"></div>
-    <!--Загрузка аватарки-->
-    <div id="window">
-        <!-- Картинка крестика-->
-        <img class="close" onclick="show('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
-        @*@Html.Partial("../Shared/AvatarUpload")*@
-    </div>
-
-
-    <div class="container-fluid">
-        <div class="col-md-3 col-sm-3 col-xs-3">
-
-            <div class="col-md-5 col-sm-5-col-xs-5"><img src="~/Content/images/22.png" class="img-responsive" alt="Responsive image"></div>
-            <div class="col-md-5 col-sm-5-col-xs-5">@ViewBag.currentUser.Name @ViewBag.currentUser.LastName)</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">
-                <br><span class="glyphicon glyphicon-globe"></span>
-            </div>
-
-            <table border="1">
-                <tr>
-                    <td>
-                        <table>
-                            <tr>
-                                <td>
-                                    <div class="col-md-5  col-sm-5-col-xs-5"><img src="@ViewBag.currentUser.AvatarUrl" width="250" height="250" onclick="show('block')"></div>
-                                </td>
-                            </tr>
-                        </table>
+                    <img src="@item.UserData.AvatarUrl" height="10%">
+                </td>
+                <td width="150px">
+                    @item.UserData.Name @item.UserData.LastName <br />
+                    @item.Message.Time
+                </td>
+                @if (item.Message.UserPost.UserId == ViewBag.currentUser.UserProfile.UserId)
+                {
+                    if (item.Message.IsRead)
+                    { 
+                    <td valign="middle" style="width:600px;">
+                        <img src="@ViewBag.currentUser.AvatarUrl" width="70" height="70">
+                        @Message
                     </td>
-                </tr>
+                }
+                else
+                    {
+                        <td valign="middle" style="width:600px; background-color:steelblue;">
+                        <img src="@ViewBag.currentUser.AvatarUrl" width="70" height="70">
+                        @Message
+                    </td>
+                    }
+                }
+                else
+                {
+                     if (item.Message.IsRead)
+                    { 
+                    <td valign="middle">@Message</td>
+                }
+                else
+                     {
+                        
+                         <td valign="middle" style="background-color: steelblue;">@Message</td>
+                     }
+                }
+            </tr>
 
-                <tr>
-
-                    <td><button type="button" class="btn-block btn-primary">Фотографии <div class="glyphicon glyphicon-picture"></div></button></td>
-                </tr>
-
-                <tr>
-                    <td><button type="button" class="btn-block btn-primary">Видеозаписи <div class="glyphicon glyphicon-film"></div></button></td>
-                </tr>
-                <tr>
-                    <td><button type="button" class="btn-block btn-primary">Музыка <div class="glyphicon glyphicon-headphones"></div></button></td>
-                </tr>
-                <tr>
-                    <td><button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("AddData", "Account")'">Информация <div class="glyphicon glyphicon-info-sign"></div></button></td>
-                </tr>
-                <tr>
-                    <td><button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("LogOff", "Account")'">Выйти <div class="glyphicon glyphicon-log-out"></div></button></td>
-                </tr>
-            </table>
-        </div>
-
-
-        <div class="col-md-9">
-
-
-            <div class="col-md-2">
-
-                <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Messages", "Message")'">Сообщения <div class="glyphicon glyphicon-envelope"></div></button>
-
-            </div>
-            <div class="col-md-2">
-
-                <button type="button" class="btn-block btn-primary">Стена <div class="glyphicon glyphicon-list-alt"></div> </button>
-
-            </div>
-            <div class="col-md-2">
-
-                <button type="button" class="btn-block btn-primary" onclick="location.href='@Url.Action("Frends", "Frends")'">Друзья <div class="glyphicon glyphicon-user"></div></button>
-            </div>
-            <div class="col-md-2">
-                <button type="button" class="btn-block btn-primary">
-                    Поиск <div class="
-glyphicon glyphicon-search"></div>
-                </button>
-            </div>
-            <div class="col-md-2">
-                <button type="button" class="btn-block btn-primary">
-                    Настройки <div class="
-          glyphicon glyphicon-cog"></div>
-                </button>
-            </div>
-            <div class="col-md-2">
-
-                <button type="button" class="btn-block btn-primary">
-                    Помощь <div class="
-          glyphicon glyphicon-question-sign"></div>
-                </button>
-
-            </div>
-
-        </div>
-
-
-
-
-        <div class="container">
-            <div class="row">
-
-                <div class="col-md-9" style="background-color: #605e5e">
-                    <h2>Messages</h2>
-
-                    <table>
-                        <tr><td colspan="3"><hr /></td></tr>   
-                        @foreach (var item in ViewBag.DialogList)
-{
-    <tr  style="margin:80px;" onmousemove="  document.body.style.cursor = 'pointer';" onclick="location.href='@Url.Action("Dialog", "Message", new { UserId = item.UserData.UserProfile.UserId })'">
-        <td width="10%"><img src="@item.UserData.AvatarUrl" width="100" height="100"></td>
-        <td width="20%">
-            <h6>@item.Message.Time</h6>
-            <div style="margin-left:12px;">@item.UserData.Name @item.UserData.LastName</div>
-        </td>
-        @if (item.Message.UserPost.UserId == ViewBag.currentUser.UserProfile.UserId)
-        {
-            <td width="70%" valign="middle">
-                <img src="@ViewBag.currentUser.AvatarUrl" width="70" height="70">
-                @item.Message.Text
-            </td>
+            <tr><td colspan="3"><hr /></td></tr>
         }
-        else
-        {
-            <td width="70%" valign="middle">@item.Message.Text</td>
-        }
-                        </tr>
-                            <tr><td colspan="3"><hr /></td></tr>                 
-}
-                    </table>
-                </div>
-            </div>
 
-        </div>
-    </div>
 
-</body>
-</html>
-@*<table  width="90%" border="2" >
-       <tr>
-        <td width="80" valign="top"  >
-         <table width="90%" >
-          <tr><td height="100" width="100" ><img src="@item.UserData.AvatarUrl" width="100" height="100"></td></tr>
-           <td>@item.UserData.Name @item.UserData.LastName</td>
-             <tr><h6>@item.Message.Time</h6></tr>
-             </table>
-        </td>
-        <td valign="top" >@item.Message.Text</td>
-       </tr>
-      </table>
-    <br />*@
 
-@*<table border="1">
-        <tr>
-            <td ><h6>@item.Message.Time</h6></td>
-            <td width="90%" rowspan="3" valign="middle">@item.Message.Text</td>
-        </tr>
-        <tr>
-            <td><img src="@item.UserData.AvatarUrl" width="100" height="100"></td>
-        </tr>
-        <tr>
-            <td>@item.UserData.Name @item.UserData.LastName</td>
-        </tr>
+
     </table>
-    <br />*@
-@*@foreach (var item in ViewBag.CurrentUserMessages)
-    {
-        <div>
-            <p>@item.UserPost.UserName</p>
-            <p>@item.Text</p>
-        </div>
-        <hr />
-    }*@
-
-@*@foreach (var item in ViewBag.Dialoglist)
-    {
-        <div>
-            <p>@item.UserPost.UserName</p>
-            <p>@item.Text</p>
-        </div>
-    }*@
+</div>    

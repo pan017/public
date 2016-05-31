@@ -15,7 +15,43 @@ namespace MvcApplication29.Controllers
     {
         //
         // GET: /Wall/
+        UsersContext db;
 
+        public void GetCurrentUser()
+        {
+            db = new UsersContext();
+            List<UserData> TempList = new List<UserData>();
+            TempList = db.UsersData.ToList();
+            ViewBag.Users = TempList;
+            UserData model = new UserData();
+            for (int i = 0; i < TempList.Count; i++)
+            {
+                if (TempList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
+                {
+                    model = TempList[i];
+                    break;
+                }
+            }
+            ViewBag.currentUser = model;
+
+        }
+        public ActionResult ViewWallUser(int UserId)
+        {
+            UsersContext db = new UsersContext();
+            GetCurrentUser();
+            List<Wall> TempList = new List<Wall>();
+            List<Wall> CurrentUserWall = new List<Wall>();
+
+            TempList = db.Walls.ToList();
+            for (int i = TempList.Count-1; i > -1 ; i--)
+            {
+                if (TempList[i].ThisUser.UserId == UserId)
+                {
+                    CurrentUserWall.Add(TempList[i]);
+                }
+            }
+            return View(CurrentUserWall);
+        }
         public ActionResult Index()
         {
             UsersContext db = new UsersContext();
@@ -62,6 +98,7 @@ namespace MvcApplication29.Controllers
                 NewFileName += Extention;
                 NewFileName = NewFileName.Replace('/', 'w');
                 NewFileName = NewFileName.Replace('\\', 'a');
+                NewFileName = NewFileName.Replace('+', 'q');
                 upload.SaveAs(Server.MapPath("~/WallsContent/" + NewFileName));
                 model.ContentUrl = "/WallsContent/" + NewFileName;
             }

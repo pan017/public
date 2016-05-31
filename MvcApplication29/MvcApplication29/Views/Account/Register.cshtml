@@ -8,7 +8,7 @@
 @using (@Html.BeginForm("Register", "Account"))
 {
     
-    
+        <h4>@Html.ValidationMessage("MyError")</h4>
   <table align="center">
                             <tr>
                                 <td>@Html.LabelFor(model => model.UserName)</td>
@@ -29,7 +29,7 @@
                                 <td>@Html.TextBoxFor(m => m.EmailAdres)</td>
                                 <td align="left">@Html.ValidationMessageFor(m => m.EmailAdres)</td>
                             </tr>
-                            <tr><td align="center"><input type="submit" class="btn btn-primary" value="Зарегистрироваться"  /></td></tr>
+                            <tr><td align="center"><input type="submit" class="btn" value="Зарегистрироваться"  /></td></tr>
                         </table>   
 
          

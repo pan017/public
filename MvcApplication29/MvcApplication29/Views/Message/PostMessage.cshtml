@@ -2,12 +2,30 @@
     Layout = null;
 }
 @model MvcApplication29.Models.Message
+           <br />
 
-@using (Html.BeginForm("PostMessage", "Message", new {UserGetId = Model.UserGet.UserId}, FormMethod.Post))
-{  
-@Html.TextAreaFor(m => m.Text)
+    @using (Html.BeginForm("PostMessage", "Message", new { UserGetId = Model.UserGet.UserId, returnUrl = Request.Url.PathAndQuery }, FormMethod.Post))
+    {
+       <p><b>Новое сообщение</b></p>
+        @Html.ValidationMessage("MessageError")
+        @Html.TextAreaFor(m => m.Text, new { @class = "textArea", @cols = "90%", @rows = "4", @onkeyup= "checkMessage()" })
 
-<button type="submit" class="btn-block btn-primary">
-    Отправить <div class="glyphicon glyphicon-question-sign"></div></button>
-    @*<button type="submit" class="btn-block btn-primary" onclick="location.href'@Url.Action("PostMessage", "Message",)'></button>*@
-}
+        <button type="submit"  disabled id="submitBtn" class="btn">
+            Отправить
+        </button>
+
+    }
+<script>
+    function checkMessage() {
+        var s = document.getElementById('Text').value
+        
+        if (s.length < 1)
+        {
+            document.getElementById('submitBtn').disabled = true
+        }
+        else
+        {
+            document.getElementById('submitBtn').disabled = false
+        }
+    }
+</script>

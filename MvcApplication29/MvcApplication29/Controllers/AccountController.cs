@@ -26,6 +26,7 @@ namespace MvcApplication29.Controllers
 
         public ActionResult Settings()
         {
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             UsersContext db = new UsersContext();
             List<UserData> TempUserList = new List<UserData>();
             TempUserList = db.UsersData.ToList();
@@ -43,6 +44,7 @@ namespace MvcApplication29.Controllers
         [Authorize]
         public ActionResult AddData()
         {
+                        ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             UsersContext db = new UsersContext();
             string a = WebSecurity.CurrentUserName;
             UserData model = new UserData();
@@ -61,14 +63,58 @@ namespace MvcApplication29.Controllers
             
             return View("AddData",model);
         }
+
         [HttpPost]
-        public ActionResult AddData(UserData model)
+        public ActionResult AddData(UserData model, HttpPostedFileBase upload)
         {
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             UsersContext db = new UsersContext();
-            
+            List<UserData> TempList = new List<UserData>();
+            TempList = db.UsersData.ToList();
+            for (int i = 0; i < TempList.Count; i++)
+            {
+                if (TempList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
+                {
+                    model = TempList[i];
+                    ViewBag.currentUser = TempList[i];
+                    break;
+                }
+            }
             var EditUser = db.UsersData
-                .Where(c => c.UserProfile.UserId == WebSecurity.CurrentUserId)
-                .FirstOrDefault();
+               .Where(c => c.UserProfile.UserId == WebSecurity.CurrentUserId)
+               .FirstOrDefault();
+            if (upload != null)
+            {
+                // получаем имя файла
+                string fileName = System.IO.Path.GetFileName(upload.FileName);
+                // сохраняем файл в папку Files в проекте
+                string Extention = System.IO.Path.GetExtension(upload.FileName);
+                string NewFileName = Crypto.Hash(fileName);
+                NewFileName = NewFileName.Remove(0, 20);
+                NewFileName = NewFileName.ToLower();
+                NewFileName += Extention;
+                upload.SaveAs(Server.MapPath("~/Avatars/" + NewFileName));
+
+               
+                //System.IO.File.Delete(Server.MapPath(EditUser.AvatarUrl));
+                EditUser.AvatarUrl = "/Avatars/" + NewFileName;
+                db.SaveChanges();
+                upload.SaveAs(Server.MapPath("~/Avatars/" + NewFileName));
+            }
+
+            if (model.Name == null)
+            {
+                ModelState.AddModelError("Name", "Поле Имя обязательно к заполнению");
+        
+               
+                return View("AddData", model);
+            }
+            if (model.LastName == null)
+            {
+                ModelState.AddModelError("LastName", "Поле Фамилия обязательно к заполнению");
+                        
+                return View("AddData", model);
+            }
             EditUser.BrithDay = model.BrithDay;
             EditUser.About = model.About;
             EditUser.City = model.City;
@@ -102,7 +148,6 @@ namespace MvcApplication29.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase upload)
         {
@@ -146,7 +191,11 @@ namespace MvcApplication29.Controllers
         [AllowAnonymous]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-
+            if (model.Password == null || model.UserName == null)
+            {
+                ModelState.AddModelError("MyError", "Ошибка. Заполните все поля");
+                return View(returnUrl);
+            }
             bool logged = WebSecurity.Login(model.UserName, model.Password);
 
             if (logged)
@@ -158,7 +207,7 @@ namespace MvcApplication29.Controllers
             else
             {
                 // If we got this far, something failed, redisplay form
-                ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                ModelState.AddModelError("MyError", "Ошибка! Имя пользователя или пароль неверны");
                 return View(model);
             }
         }
@@ -189,6 +238,11 @@ namespace MvcApplication29.Controllers
         [AllowAnonymous]
         public ActionResult Register(RegisterModel model)
         {
+            if (model.ConfirmPassword == null || model.EmailAdres == null || model.Password == null || model.UserName == null)
+            {
+                ModelState.AddModelError("MyError", "Ошибка! Заполните все поля!");
+                return View(model);
+            }
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
@@ -348,16 +402,87 @@ string mailto, string caption, string message, string attachFile = null)
             ViewBag.EmailError = null;
             return RedirectToAction("Index", "Home");
         }
+        [AllowAnonymous]
         public ActionResult RecoverPassword()
         {
             return View();
         }
+    [HttpPost]
+    [AllowAnonymous]
         public ActionResult RecoverPassword(PasswordRecoverModel Model)
         {
+            if (Model.Email == null || Model.Name == null)
+            {
+                ModelState.AddModelError("MyObject", "Заполните все поля");
+                    return View();
+            }
             UsersContext db = new UsersContext();
-            var FindUser = db.EmailModels
-                .Where(c => c.Email == ";l.plp");
+            EmailModel FindUser = new EmailModel();
+            List<EmailModel> _tempList = new List<EmailModel>();
+            _tempList = db.EmailModels.ToList();
+            for (int i = 0; i <_tempList.Count; i++)
+			 if (_tempList[i].Email.Trim().ToLower() == Model.Email.Trim().ToLower() &&
+                 _tempList[i].UserProfile.UserName.Trim().ToLower() == Model.Name.Trim().ToLower())
+             {
+                 FindUser = _tempList[i];
+                 break;
+             }
+        if (FindUser.Email == null)
+        {
+            ModelState.AddModelError("MyObject", "Данные введены не корректно");
             return View();
+        }
+
+            string Key = WebSecurity.GeneratePasswordResetToken(FindUser.UserProfile.UserName);
+            SendMail("smtp.mail.ru", "pan-i@mail.ru", "7632bxr29zx6", FindUser.Email, "public", "Welcom to public " +
+                           "Для восстановления пароля перейдите по этой ссылке http://localhost:2520/Account/RecoverPasswordPage?Key=" + Key, null);
+                        
+            return View();
+        }
+        [AllowAnonymous]
+        public ActionResult RecoverPasswordPage(string Key)
+        {
+            LocalPasswordModel model = new LocalPasswordModel();
+            model.OldPassword = Key;
+            ViewBag.Key = Key;
+            return View(model);
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult RecoverPasswordPage(LocalPasswordModel model)
+        
+        {
+            if (model.NewPassword == null || model.ConfirmPassword == null)
+            {
+                ModelState.AddModelError("NewPassword", "Ошибка! Заполните все поля");
+                return View(model);
+            }
+            if (model.NewPassword != model.ConfirmPassword)
+            {
+                ModelState.AddModelError("NewPassword", "Ошибка! Пароли должны совпадать");
+                return View(model);
+            }
+            int s = WebSecurity.GetUserIdFromPasswordResetToken(model.OldPassword);
+            string FindUser = "";
+            WebSecurity.ResetPassword(model.OldPassword, model.NewPassword);
+            UsersContext db = new UsersContext();
+            List<UserProfile> _userProfileList = db.UserProfiles.ToList();
+            for (int i = 0; i < _userProfileList.Count; i++)
+            {
+                if (_userProfileList[i].UserId == s)
+                {
+                    FindUser = _userProfileList[i].UserName;
+                    break;
+                }
+            }
+            bool logget = WebSecurity.Login(FindUser, model.NewPassword);
+            if (logget)
+                return RedirectToAction("Index", "Home");
+            else 
+                return View();
+            
         }
         //
         // POST: /Account/Disassociate
@@ -399,6 +524,7 @@ string mailto, string caption, string message, string attachFile = null)
                 : "";
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.ReturnUrl = Url.Action("Manage");
+
             return View();
         }
 
@@ -420,6 +546,21 @@ string mailto, string caption, string message, string attachFile = null)
                     try
                     {
                         changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
+                        UsersContext db;
+                        db = new UsersContext();
+                        List<UserData> TempList = new List<UserData>();
+                        TempList = db.UsersData.ToList();
+                        ViewBag.Users = TempList;
+                        UserData _model = new UserData();
+                        for (int i = 0; i < TempList.Count; i++)
+                        {
+                            if (TempList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
+                            {
+                                _model = TempList[i];
+                                break;
+                            }
+                        }
+                        ViewBag.currentUser = _model;
                     }
                     catch (Exception)
                     {
