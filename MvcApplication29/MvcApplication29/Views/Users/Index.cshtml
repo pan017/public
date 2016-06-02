@@ -1,6 +1,8 @@
 ﻿
 @model MvcApplication29.Models.UserData
-
+@{
+    ViewBag.Title = Model.Name + " " + Model.LastName;
+}
 <table width="700px" style="margin-top:15px; background-color:lightblue;">
     <tr style="margin-left:15px;">
         <td rowspan=" 3" width="50%" style="margin-left:15px;">
@@ -25,7 +27,7 @@
             <p> Место работы:@Model.Job </p>
         </td>
     </tr>
-
+    
         @{Html.RenderAction("ViewWallUser", "Wall", new {UserId = Model.UserProfile.UserId });}
         
 </table>

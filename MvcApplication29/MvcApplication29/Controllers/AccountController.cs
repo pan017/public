@@ -23,7 +23,42 @@ namespace MvcApplication29.Controllers
     {
         //
         // GET: /Account/Login
-
+        [HttpPost]
+        public ActionResult Settings(LocalPasswordModel model)
+        {
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
+            UsersContext db = new UsersContext();
+            List<UserData> TempUserList = new List<UserData>();
+            TempUserList = db.UsersData.ToList();
+            for (int i = 0; i < TempUserList.Count; i++)
+            {
+                if (TempUserList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
+                {
+                    ViewBag.currentUser = TempUserList[i];
+                    break;
+                }
+            }
+            if (String.IsNullOrEmpty(model.ConfirmPassword) || String.IsNullOrEmpty(model.OldPassword)
+                || String.IsNullOrEmpty(model.NewPassword))
+            {
+                ModelState.AddModelError("PasswordMessage", "Ошибка! Заполните все поля!");
+                return View(model);
+            }
+                    if(model.ConfirmPassword != model.NewPassword)
+                    {
+                        ModelState.AddModelError("PasswordMessage", "Ошибка! Пароли не совпадают");
+                        return View(model);
+                    }
+              bool changePasswordSucceeded;
+              changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
+              if (!changePasswordSucceeded)
+              {
+                  ModelState.AddModelError("PasswordMessage", "Ошибка! Данные введены не корректно");
+                  return View(model);
+              }
+              ModelState.AddModelError("PasswordMessage", "Пароль успешно изменен!");
+            return View();
+        }
         public ActionResult Settings()
         {
             ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
@@ -75,7 +110,7 @@ namespace MvcApplication29.Controllers
             {
                 if (TempList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
                 {
-                    model = TempList[i];
+
                     ViewBag.currentUser = TempList[i];
                     break;
                 }
@@ -530,10 +565,29 @@ string mailto, string caption, string message, string attachFile = null)
 
         //
         // POST: /Account/Manage
+        public void GetCurrentUser()
+        {
+            UsersContext db = new UsersContext();
+            List<UserData> TempList = new List<UserData>();
+            TempList = db.UsersData.ToList();
+            ViewBag.Users = TempList;
+            UserData model = new UserData();
+            for (int i = 0; i < TempList.Count; i++)
+            {
+                if (TempList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
+                {
+                    model = TempList[i];
+                    break;
+                }
+            }
+            ViewBag.currentUser = model;
+
+        }
 
         [HttpPost]
         public ActionResult Manage(LocalPasswordModel model)
         {
+            GetCurrentUser();
             bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.HasLocalPassword = hasLocalAccount;
             ViewBag.ReturnUrl = Url.Action("Manage");

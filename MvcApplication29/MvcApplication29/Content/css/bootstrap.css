@@ -119,7 +119,12 @@ textarea {
 }
 button {
   overflow: visible;
+  background-color: rgba(248,245,245,1.00);/* всегада */
+
 }
+ button:hover {
+    background:SteelBlue; 
+   }
 button,
 select {
   text-transform: none;
@@ -1617,7 +1622,7 @@ pre code {
   position: relative;
   min-height: 1px;
   padding-right: 15px;
-
+  padding-left: 15px;
 }
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
   float: left;
@@ -3001,12 +3006,6 @@ select[multiple].input-lg {
     padding-top: 6px;
     font-size: 12px;
   }
-}
-btn-group-vertical:hover{
-     background-color:SteelBlue;
-}
-.btn:hover{
-    background-color:SteelBlue;
 }
 .btn {
   display: inline-block;

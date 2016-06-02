@@ -1,6 +1,8 @@
 ﻿
-
-@{
+ @{
+     ViewBag.Title = ViewBag.currentUser.Name + " " + ViewBag.currentUser.LastName;
+     }
+         @{
     Html.RenderAction("AddWall", "Wall");
     }
 @{ Html.RenderAction("Index", "Wall"); }

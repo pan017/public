@@ -48,15 +48,19 @@ namespace MvcApplication29.Controllers
             for (int i = 0; i < FrendsList.Count; i++)
             {
                 if (FrendsList[i].UserA.UserProfile.UserId == WebSecurity.CurrentUserId)
+                {
                     if (FrendsList[i].IsConfirm)
                         ConfirmFrends.Add(FrendsList[i].UserB);
-                    else
-                        NotConfirmFrends.Add(FrendsList[i].UserB);
+                    else { }
+                }
+
                 else
+                {
                     if (FrendsList[i].IsConfirm)
                         ConfirmFrends.Add(FrendsList[i].UserA);
                     else
                         NotConfirmFrends.Add(FrendsList[i].UserA);
+                }
             }
             ViewBag.FrendsCount = ConfirmFrends.Count;
             ViewBag.Frends = ConfirmFrends;

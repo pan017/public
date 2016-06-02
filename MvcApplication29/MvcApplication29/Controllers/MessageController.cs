@@ -152,7 +152,7 @@ namespace MvcApplication29.Controllers
         }
         public ActionResult Dialog (int UserId)
         {
-            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
+            
             UsersContext db = new UsersContext();
             List<UserData> TempUserList = new List<UserData>();
             TempUserList = db.UsersData.ToList();
@@ -230,6 +230,7 @@ namespace MvcApplication29.Controllers
                     db.SaveChanges();
                 }
             }
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             return View(NewDialogList);
         }
     }
