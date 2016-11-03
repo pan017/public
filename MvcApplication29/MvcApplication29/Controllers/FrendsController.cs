@@ -88,10 +88,15 @@ namespace MvcApplication29.Controllers
                 if (TempList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
                 {
                     frend.UserA = TempList[i];
-                    break;
+                    
+                }
+                if (TempList[i].UserProfile.UserId == id)
+                {
+                    frend.UserB = TempList[i];
                 }
             }
-            frend.UserB = db.UsersData.Find(id);
+    
+            
             db.Frends.Add(frend);
             db.SaveChanges();
             int CurrentId = id;

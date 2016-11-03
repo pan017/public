@@ -18,6 +18,11 @@ namespace MvcApplication29
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+               name: "Root",
+               url: "",
+               defaults: new { controller = "Home", action = "Index" }
+           );
         }
     }
 }

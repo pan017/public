@@ -79,7 +79,6 @@ namespace MvcApplication29.Controllers
         [Authorize]
         public ActionResult AddData()
         {
-                        ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             UsersContext db = new UsersContext();
             string a = WebSecurity.CurrentUserName;
             UserData model = new UserData();
@@ -95,14 +94,15 @@ namespace MvcApplication29.Controllers
                 }
 			}
             db.Dispose();
-            
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
+
             return View("AddData",model);
         }
 
         [HttpPost]
         public ActionResult AddData(UserData model, HttpPostedFileBase upload)
         {
-            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
+            
             UsersContext db = new UsersContext();
             List<UserData> TempList = new List<UserData>();
             TempList = db.UsersData.ToList();
@@ -180,7 +180,7 @@ namespace MvcApplication29.Controllers
                 ModelState.AddModelError("BrithDay", "Введите дату корректно");
                 return View(model);
             }
-
+            ViewBag.NotRead = HomeController.GetNotReadMessagesCount();
             return RedirectToAction("Index", "Home");
         }
         [HttpPost]
@@ -221,7 +221,7 @@ namespace MvcApplication29.Controllers
 
         //
         // POST: /Account/Login
-
+	// АВТОРИЗАЦИЯ, НУ ТУТ ВСЕ ПРОСТО
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Login(LoginModel model, string returnUrl)
@@ -271,8 +271,9 @@ namespace MvcApplication29.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register(RegisterModel model)  // регистрация
         {
+	// Всякие проверки
             if (model.ConfirmPassword == null || model.EmailAdres == null || model.Password == null || model.UserName == null)
             {
                 ModelState.AddModelError("MyError", "Ошибка! Заполните все поля!");
@@ -306,7 +307,7 @@ namespace MvcApplication29.Controllers
                             return View(model);
                         }
                     }
-                    if (LoginValid)
+                    if (LoginValid) 
                     {
                         model.UserName.ToLower();
                         model.EmailAdres.ToLower();
@@ -326,7 +327,11 @@ namespace MvcApplication29.Controllers
                                 return View(model);
                             }
                         }
+			// ТУТ СОЗДАЕМ НОВОГО ПОЛЬЗОВАТЕЛЯ
                         WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+
+			// сРАЗУЖЕ ЛОГИНИМСЯ
+
                         bool logged = WebSecurity.Login(model.UserName, model.Password);
 
                         if (logged)
@@ -339,6 +344,8 @@ namespace MvcApplication29.Controllers
                         UserData CurrentUserDataModel = new UserData(TempProfile);
                         db.UsersData.Add(CurrentUserDataModel);
                         db.SaveChanges();
+
+			// ГЕНЕРИРУЕМ КОТД ПОДТВЕРЖДЕНИЯ
                         EmailModel e = new EmailModel();
                         e.Email = model.EmailAdres;
                         e.IsConfirm = false;
@@ -348,8 +355,8 @@ namespace MvcApplication29.Controllers
                         db.EmailModels.Add(e);
                         db.SaveChanges();
 
-                        SendMail("smtp.mail.ru", "pan-i@mail.ru", "7632bxr29zx6", e.Email , "public", "Welcom to public " +
-                            "Пожалуйста, активируйте Ваш аккаунт, перейдя по этой ссылке http://localhost:2520/Account/ActivationAccount/" + e.Key, null);
+                        SendMail("smtp.mail.ru", "ЯЩИК С КОТОРОГО ОТПРАВЛЯЕТЯ ПИСЬМО", "ПАРОЛЬ ОТ ЯЩИКА", e.Email , "public", "Welcom to public " +
+                            "Пожалуйста, активируйте Ваш аккаунт, перейдя по этой ссылке http://public.somee.com/Account/ActivationAccount/" + e.Key, null);
                         ViewBag.currentUser = CurrentUserDataModel;
                         return View("AddData", CurrentUserDataModel);
                     }
@@ -411,10 +418,11 @@ string mailto, string caption, string message, string attachFile = null)
             }
             catch (Exception e)
             {
-                throw new Exception("Mail.Send: " + e.Message);
+                return;
             }
         }
-
+	
+	// АКТИВАЦИЯ АККАУНТА ЕСЛИ ПОЛЬЗОВАТЕЛЬ ПЕРЕШЕЛ ПО ССЫЛКЕ
         public ActionResult ActivationAccount(string ActivatonCode)
         {
             UsersContext db = new UsersContext();
@@ -470,7 +478,7 @@ string mailto, string caption, string message, string attachFile = null)
 
             string Key = WebSecurity.GeneratePasswordResetToken(FindUser.UserProfile.UserName);
             SendMail("smtp.mail.ru", "pan-i@mail.ru", "7632bxr29zx6", FindUser.Email, "public", "Welcom to public " +
-                           "Для восстановления пароля перейдите по этой ссылке http://localhost:2520/Account/RecoverPasswordPage?Key=" + Key, null);
+                           "Для восстановления пароля перейдите по этой ссылке http://public.somee.com/Account/RecoverPasswordPage?Key=" + Key, null);
                         
             return View();
         }

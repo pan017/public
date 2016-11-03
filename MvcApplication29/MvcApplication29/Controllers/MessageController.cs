@@ -76,11 +76,15 @@ namespace MvcApplication29.Controllers
                     CurrentUserMessages.Add(TempList[i]);
             }
             List<UserData> TempUserList = new List<UserData>();
+
             TempUserList = db.UsersData.ToList();
             UserData currentUser = new UserData();
-            for (int i = 0; i < TempList.Count; i++)
+            List<UserProfile> _tr = db.UserProfiles.ToList();
+
+            for (int i = 0; i < TempUserList.Count; i++)
             {
-                if (WebSecurity.CurrentUserId == TempUserList[i].UserProfile.UserId)
+                int rr = WebSecurity.CurrentUserId;
+                if (TempUserList[i].UserProfile.UserId == WebSecurity.CurrentUserId)
                 {
                     currentUser = TempUserList[i];
                     break;

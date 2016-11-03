@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using MvcApplication29.Models;
 using MvcApplication29.Filters;
 using WebMatrix.WebData;
+using System.IO;
+using System.Web.Helpers;
 
 namespace MvcApplication29.Controllers
 {
@@ -14,10 +16,10 @@ namespace MvcApplication29.Controllers
     {
 
         UsersContext db;
-  
+
         public HomeController()
         {
-           
+
         }
         public void GetCurrentUser()
         {
@@ -39,10 +41,12 @@ namespace MvcApplication29.Controllers
 
         }
         [Authorize]
-        
+
         public ActionResult Index()
         {
-
+            //WebSecurity.Logout();
+            //return RedirectToAction("Login", "Account");
+            //WebSecurity.Logout();
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
             GetCurrentUser();
             var EditUser = db.EmailModels
@@ -64,8 +68,141 @@ namespace MvcApplication29.Controllers
                     break;
                 }
             }
-           
-            
+            //string model = "qwe";
+
+            //string s;
+            //List<string> Names = new List<string>();
+            //StreamReader f = new StreamReader(@"E:\public\имя.txt");
+
+            //Random r = new Random();
+            //double sex = r.Next(10);
+
+            //while ((s = f.ReadLine()) != null)
+            //{
+            //    Names.Add(s);
+            //}
+            //List<string> Mans = new List<string>();
+            //f = new StreamReader(@"E:\public\м.txt");
+            //while ((s = f.ReadLine()) != null)
+            //{
+            //    Mans.Add(s);
+            //}
+            //List<string> Womans = new List<string>();
+            //f = new StreamReader(@"E:\public\ж.txt");
+            //while ((s = f.ReadLine()) != null)
+            //{
+            //    Womans.Add(s);
+            //}
+            //List<string> Logins = new List<string>();
+            //f = new StreamReader(@"E:\public\logins.txt");
+            //while ((s = f.ReadLine()) != null)
+            //{
+            //    Logins.Add(s);
+            //}
+            //List<string> Jobs = new List<string>();
+            //f = new StreamReader(@"E:\public\место работы.txt");
+            //while ((s = f.ReadLine()) != null)
+            //{
+            //    Logins.Add(s);
+            //}
+            //List<string> Intst = new List<string>();
+            //f = new StreamReader(@"E:\public\универы.txt");
+            //while ((s = f.ReadLine()) != null)
+            //{
+            //    Logins.Add(s);
+            //}
+            //List<string> passwords = new List<string>();
+
+            //    for (int j = 0; j < Logins.Count; j++)
+            //    {
+            //        if (WebSecurity.Login(TempList[55].UserProfile.UserName, Logins[j], false))
+            //        {
+            //            passwords.Add(Logins[j]);
+            //        }
+            //    }
+            //StreamWriter t = new StreamWriter(@"C:\1.txt");
+            //for (int k = 0; k < passwords.Count; k++)
+            //{
+            //    t.WriteLine(passwords[k]);
+            //}
+            //for (int i = 1; i < 34; i++)
+            //{
+            //    string Login = Logins[r.Next(Logins.Count)];
+            //    string Password = Logins[r.Next(Logins.Count)];
+            //    WebSecurity.CreateUserAndAccount(Login, Password);
+            //    bool logged = WebSecurity.Login(Login, Password);
+
+            //    if (logged)
+            //    {
+            //        //set auth cookie
+            //        // FormsAuthentication.SetAuthCookie(model.UserName, false);
+            //    }
+
+            //    UserProfile TempProfile = db.UserProfiles.Find(WebSecurity.GetUserId(Login));
+            //    UserData CurrentUserDataModel = new UserData(TempProfile);
+            //    CurrentUserDataModel.City = "Минск";
+            //    //if (sex % 2 == 0)
+            //    // {
+            //    CurrentUserDataModel.LastName = Names[r.Next(Names.Count)]+"ова";
+            //    CurrentUserDataModel.Name = Womans[r.Next(Womans.Count)];
+            //    // }
+            //    //else
+            //    //{
+            //    //    CurrentUserDataModel.LastName = Names[r.Next(Names.Count)]+"ова";
+            //    //    CurrentUserDataModel.Name = Womans[r.Next(Womans.Count)];
+            //    //}
+            //    CurrentUserDataModel.School = "СШ №" + r.Next(1, 228);
+            //    DateTime q = new DateTime(r.Next(1976, 1998), r.Next(1, 12), r.Next(1, 27));
+            //    CurrentUserDataModel.BrithDay = q;
+            //    CurrentUserDataModel.Phone = "+37529" + r.Next(1000010, 9999999);
+
+            //    // получаем имя файла
+            //    string fileName = (@"E:\public\ж\" + i + "ж.jpg");
+            //    // сохраняем файл в папку Files в проекте
+            //    string Extention = System.IO.Path.GetExtension(fileName);
+            //    string NewFileName = Crypto.Hash(fileName);
+            //    NewFileName = NewFileName.Remove(0, 20);
+            //    NewFileName = NewFileName.ToLower();
+            //    NewFileName += Extention;
+            //    try
+            //    {
+            //        System.IO.File.Copy(fileName, @"E:\public\MvcApplication29\MvcApplication29\Avatars\" + NewFileName);
+            //    }
+            //    catch
+            //    {
+
+            //        NewFileName = Crypto.Hash(fileName + DateTime.Now.ToLongDateString());
+            //        NewFileName = NewFileName.Remove(0, 20);
+            //        NewFileName = NewFileName.ToLower();
+            //        NewFileName += Extention;
+            //        System.IO.File.Copy(fileName, @"E:\public\MvcApplication29\MvcApplication29\Avatars\" + NewFileName);
+
+            //    }
+            //    //upload.SaveAs(Server.MapPath("~/Avatars/" + NewFileName));
+
+
+            //    //System.IO.File.Delete(Server.MapPath(EditUser.AvatarUrl));
+            //    CurrentUserDataModel.AvatarUrl = "/Avatars/" + NewFileName;
+
+            //    //upload.SaveAs(Server.MapPath("~/Avatars/" + NewFileName));
+
+
+            //    CurrentUserDataModel.Skype = Logins[r.Next(Logins.Count)];
+            //    db.UsersData.Add(CurrentUserDataModel);
+            //    db.SaveChanges();
+            //    EmailModel e = new EmailModel();
+            //    e.Email = Logins[r.Next(Logins.Count)] + "@mail.ru";
+            //    e.IsConfirm = false;
+            //    e.Key = Crypto.SHA256(e.Email);
+            //    e.PasswordRecoverKey = Crypto.SHA256(e.Email + Password + Login);
+            //    e.UserProfile = TempProfile;
+            //    db.EmailModels.Add(e);
+            //    db.SaveChanges();
+
+            // }
+
+            //     //Man
+
             return View(model);
         }
 
@@ -106,6 +243,7 @@ namespace MvcApplication29.Controllers
             UserData currentUser = new UserData();
             for (int i = 0; i < TempList.Count; i++)
             {
+                int q = WebSecurity.CurrentUserId;
                 if (WebSecurity.CurrentUserId == TempUserList[i].UserProfile.UserId)
                 {
                     currentUser = TempUserList[i];
@@ -119,6 +257,7 @@ namespace MvcApplication29.Controllers
             List<int> MessageUsersFirstList = new List<int>();
             for (int i = 0; i < TempList.Count; i++)
             {
+                int q = WebSecurity.CurrentUserId;
                 if (TempList[i].UserGet.UserId == WebSecurity.CurrentUserId)
                     MessageUsersFirstList.Add(TempList[i].UserPost.UserId);
                 if (TempList[i].UserPost.UserId == WebSecurity.CurrentUserId)
@@ -171,8 +310,8 @@ namespace MvcApplication29.Controllers
             for (int i = 0; i < NewDialogList.Count; i++)
             {
                 if (NewDialogList[i].Message.IsRead == false && NewDialogList[i].Message.UserGet.UserId == WebSecurity.CurrentUserId)
-                    NotReadMessagesCount++; 
-                }
+                    NotReadMessagesCount++;
+            }
             return NotReadMessagesCount;
 
         }
@@ -180,18 +319,36 @@ namespace MvcApplication29.Controllers
         {
 
             List<UserData> model = new List<UserData>();
-           
-                 ViewBag.Message = "Your contact page.";
-                 GetCurrentUser();
-                 
-                 model.Add(new UserData());
-                 if (Model == null)
-                 {
-                 return View(model);
-             }
+
+            ViewBag.Message = "Your contact page.";
             GetCurrentUser();
             List<UserData> _userList = db.UsersData.ToList();
- 
+            model.Add(new UserData());
+            if (Model == null)
+            {
+
+                Random r = new Random();
+                List<int> numbers = new List<int>();
+                for (int i = 0; i < 5; i++)
+                {
+                    int q = r.Next(1, _userList.Count);
+                    for (int j = 0; j < numbers.Count; j++)
+                    {
+                        if (numbers[j] == q)
+                            i--;
+                    }
+                    numbers.Add(q);
+                }
+                List<int> newNumber = new List<int>(numbers.Distinct());
+                for (int i = 0; i < newNumber.Count; i++)
+                {
+                    model.Add(_userList[newNumber[i]]);
+                }
+                return View(model);
+            }
+            GetCurrentUser();
+
+
 
             string find = Model;
             if (find == null)
@@ -204,7 +361,7 @@ namespace MvcApplication29.Controllers
                     _userList[i].UserProfile.UserName.Trim().ToLower() == find)
                     model.Add(_userList[i]);
             }
-            
+
             return View(model);
         }
         public ActionResult Contact()
